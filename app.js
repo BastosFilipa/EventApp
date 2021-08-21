@@ -1,24 +1,3 @@
-/*https://www.eventbrite.com/platform/api 
-There are two ways to make an authenticated request.
-token=IDBAF3TKHCBFCBJOSH4O
-• URL Example
-https://www.eventbriteapi.com/v3/users/me/?token=IDBAF3TKHCBFCBJOSH4O
-
-• HTTP Example
-GET /v3/users/me HTTP 1.1 Host: www.eventbriteapi.com Authorization: Bearer IDBAF3TKHCBFCBJOSH4O
-
-______________________________________________________________
-
-https://seatgeek.com/account/develop
-Name (required)
-AppEvents
-
-AppEvents
-Client ID:	MjMwMDIzMTJ8MTYyOTU0NjU3My43MzE2NjUx
-Secret:	0f37.......
-*/
-
-
 function eventsApiRequest(params = {}) {
     const apikey = '7elxdku9GGG5k8j0Xm8KWdANDgecHMV0';
     let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apikey}`;

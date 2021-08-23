@@ -61,7 +61,7 @@ function renderResults(events = []) {
 
     if (events.length > 0) { // aplicar ternarios para lidar com valores repetidos.
         const eventsListHTML = events.reduce((eventsHTML, event) => {
-            return eventsHTML + `<div id="card">
+            return eventsHTML + `<div class="card">
             <img src='${event.images[0].url}'>
             <h3>${event.name} </h3>
             <p>${event.classifications[0].genre.name}</p> 

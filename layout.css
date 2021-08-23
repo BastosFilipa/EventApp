@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+body {
+  background-color: #0b0600;
+  color: rgb(194, 194, 194);
+}
+
+navbar {
+    background: rgb(98,3,78);
+    background: linear-gradient(180deg, rgba(98,3,78,1) 0%, rgba(48,25,1,1) 100%);
+}
+
+#pickers {
+background: rgb(48,25,1);
+background: linear-gradient(180deg, rgba(48,25,1,1) 0%, rgba(11,6,0,1) 100%);
+}
+
+
+#whats-happening{
+    border-bottom: 1px solid #62034e;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2rem;
+    color: rgb(194, 194, 194);
+    /*color: #F5793B;*/
+}
+
+.modal-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5rem;
+  }
+
+  .box {
+
+    position: relative;
+    border: 1px solid #BBB;
+    background: #EEE;
+  }
+  .ribbon {
+    position: absolute;
+    right: -5px; top: -5px;
+    z-index: 1;
+    overflow: hidden;
+    width: 75px; height: 75px;
+    text-align: right;
+  }
+  .ribbon span {
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 20px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 100px;
+    display: block;
+    background: #79A70A;
+    background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+    box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 19px; right: -21px;
+  }
+  .ribbon span::before {
+    content: "";
+    position: absolute; left: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid #79A70A;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #79A70A;
+  }
+  .ribbon span::after {
+    content: "";
+    position: absolute; right: 0px; top: 100%;
+    z-index: -1;
+    border-left: 3px solid transparent;
+    border-right: 3px solid #79A70A;
+    border-bottom: 3px solid transparent;
+    border-top: 3px solid #79A70A;
+  }

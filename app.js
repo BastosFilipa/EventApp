@@ -59,12 +59,21 @@ function renderResults(events = []) {
     console.log(events);
     let result = '';
 
-    if (events.length > 0) {
+    if (events.length > 0) { // aplicar ternarios para lidar com valores repetidos.
         const eventsListHTML = events.reduce((eventsHTML, event) => {
-            return eventsHTML + `<li>${event.name}</li>`;
+            return eventsHTML + `<div id="card">
+            <img src='${event.images[0].url}'>
+            <h3>${event.name} </h3>
+            <p>${event.classifications[0].genre.name}</p> 
+            <p>${event.dates.start.localDate}</p> 
+            <p>${event.dates.status.code}</p>
+            <p>${event.priceRanges[0].min} - ${event.priceRanges[0].max}</p> 
+            <button id="button-learnMore">Learn more</button>
+            <button id="button-share">Share this</button>
+            </div>`;
         }, '');
 
-        result += '<ul>' + eventsListHTML + '</ul>';
+        result += eventsListHTML;
     } else {
         result += '<span>No results found</span>';
     }

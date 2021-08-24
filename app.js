@@ -1,3 +1,5 @@
+import {Spotify} from './spotify.js';
+
 function eventsApiRequest(params = {}) {
     const apikey = '7elxdku9GGG5k8j0Xm8KWdANDgecHMV0';
     let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apikey}`;
@@ -14,7 +16,15 @@ function eventsApiRequest(params = {}) {
 }
 
 
-$(document).ready(function () {
+$(document).ready(async function () {
+
+
+    let topTracks  = await Spotify.getPlayer("Tom Zé");
+    topTracks.forEach(track => {
+        $('#info').append(track)
+    });
+
+    
 
     console.log('app starting');
     // bind the event handler to the input box

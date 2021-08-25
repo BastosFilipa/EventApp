@@ -47,7 +47,8 @@ function searchInLocation(query) {
 
     eventsApiRequest({ city: query })
         .then(parseResponse) // async deserialize response json
-        .then(getEvents) // extract useful info
+        .then(getEventsFromResponse) // extract useful info
+        .then(groupDuplicateEvents)
         .then(renderResults)
         .catch(handleErrors);
 }
@@ -61,37 +62,73 @@ function parseResponse(response) {
     return response.json(); //data
 }
 
-function getEvents(data) {
+function getEventsFromResponse(data) {
     console.log('data', data);
 
     return data._embedded?.events; // ?. operator returns undefined if previous identifier does not exist
 }
 
+
+function groupDuplicateEvents(events = []) { //for existing event.name dont create a new card, just add the event date to the card with the same name.
+    const duplicateChecker = {};
+
+    return events.reduce((uniqueEvents, event) => {
+        if (duplicateChecker[event.name]) { // if already found event, just add new date
+            duplicateChecker[event.name].dates.push(event.dates.start.localDate);
+
+            return uniqueEvents;
+
+        } else { // haven't seen this event, add to list
+            const newEvent = { // adapt data structure to my preference
+                name: event.name,
+                image: event.images[0].url,
+                classification: event.classifications[0].genre.name,
+                status: event.dates.status.code,
+                price: {
+                    min: event.priceRanges ? `${event.priceRanges[0]?.min}€` : '',
+                    max: event.priceRanges &&
+                        event.priceRanges[0]?.min !== event.priceRanges[0]?.max ?
+                        `- ${event.priceRanges[0]?.max}€` : '',
+                },
+                dates: [
+                    event.dates.start.localDate,
+                ]
+            };
+            duplicateChecker[event.name] = newEvent; // mark event as found by name
+
+            return [...uniqueEvents, newEvent];
+        }
+    }, []);
+}
+
 function renderResults(events = []) {
     console.log(events);
-    let result = '';
 
-    if (events.length > 0) { // aplicar ternarios para lidar com valores repetidos.
-        const eventsListHTML = events.reduce((eventsHTML, event) => {
-            return eventsHTML + `<div class="card">
-            <img src='${event.images[0].url}'>
-            <h3>${event.name} </h3>
-            <p>${event.classifications[0].genre.name}</p> 
-            <p>${event.dates.start.localDate}</p> 
-            <p>${event.dates.status.code}</p>
-            <p>${event.priceRanges[0].min} - ${event.priceRanges[0].max}</p> 
-            <button id="button-learnMore">Learn more</button>
-            <button id="button-share">Share this</button>
-            </div>`;
-        }, '');
+    $('#cards-container').html((events.length > 0) ? renderEventsList(events) : renderNoResults());
+}
 
-        result += eventsListHTML;
-    } else {
-        result += '<span>No results found</span>';
-    }
+function renderEventsList(events) {
+    return events.map((event) => renderEvent(event)).join('');
+}
 
+function renderEvent(event) {
+    return `
+    <div class="card">
+        <img class="card-image" alt='${event.name} image' src='${event.image}' />
+        <div class="card-text">
+            <h4>${event.name}</h4>
+            <p>${event.classification} ${(event.dates.join(', '))}</p>
+            <p>${event.status}</p>
+            <p>${event.price.min} ${event.price.max}</p></div>
+            <div class="buttons-container">
+                <button class="button-learnMore">Learn more</button>
+                <a class="button-share">Share this</a>
+        </div>
+    </div>`;
+}
 
-    $('#info').html(result);
+function renderNoResults() {
+    return '<span>No results found</span>';
 }
 
 function handleErrors(err) {

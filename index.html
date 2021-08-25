@@ -1,61 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-    crossorigin="anonymous"></script>
+    <script src="app.js" type="module"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="layout.css" />
+    <title>Sound Tracker APP</title>
+  </head>
 
-  <script src="app.js" type="module"></script>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="layout.css" />
-  <title>Sound Tracker APP</title>
-</head>
-
-<body>
-  <navbar id="navbar" class="navbar">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-       <img src="assets/logo.svg" alt="logo"/>
-      </a>
-    </div>
-  </navbar>
-
-  <div id="pickers" class="p-5">
-    <div class="row gx-5 justify-content-center">
-      <div class="col-md-5">
-        <input id="location" class="form-control bg-transparent" type="text"
-          placeholder="Type your city to search events nearby" />
+  <body>
+    <navbar id="navbar" class="navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="assets/logo.svg" alt="logo" />
+        </a>
       </div>
-      <div class="col-md-2">
-        <input id="calendar" class="form-control bg-transparent" type="date" />
+    </navbar>
+
+    <div id="pickers" class="p-5">
+      <div class="row gx-5 justify-content-center">
+        <div class="col-md-5">
+          <input
+            id="location"
+            class="form-control bg-transparent"
+            type="text"
+            placeholder="Type your city to search events nearby"
+          />
+        </div>
+        <div class="col-md-2">
+          <input
+            id="calendar"
+            class="form-control bg-transparent"
+            type="date"
+          />
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="container mt-md-5">
-    <div class="row">
-      <div id="whats-happening" class="col-md-4">What's happening?</div>
+    <div class="container mt-md-5">
+      <div class="row">
+        <div id="whats-happening" class="col-md-4">What's happening?</div>
+      </div>
     </div>
-  </div>
 
-  <div class="container mt-md-5">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">
-      Launch demo modal
-    </button>
+    <div class="container mt-md-5">
+      <!-- Button trigger modal -->
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#modal"
+      >
+        Launch demo modal
+      </button>
 
-    <!-- Modal -->
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="clearfix">
+                <div class="box col-md-6 float-md-end mb-3 ms-md-3">
+                  <div class="ribbon">
+                    <span> On Sale </span>
+                  </div>
 
-  <div id="info">
-  </div>
+                  <img
+                    src="https://s1.ticketm.net/dam/a/5ba/e61d38c6-4173-46fe-9b34-f84adf6295ba_1433851_EVENT_DETAIL_PAGE_16_9.jpg"
+                    class=""
+                    alt="..."
+                    width="100%"
+                  />
+                </div>
 
-</body>
+                <p>
+                  A paragraph of placeholder text. We're using it here to show
+                  the use of the clearfix class. We're adding quite a few
+                  meaningless phrases here to demonstrate how the columns
+                  interact here with the floated image.
+                </p>
 
+                <p>
+                  As you can see the paragraphs gracefully wrap around the
+                  floated image. Now imagine how this would look with some
+                  actual content in here, rather than just this boring
+                  placeholder text that goes on and on, but actually conveys no
+                  tangible information at. It simply takes up space and should
+                  not really be read.
+                </p>
+
+                <p>
+                  And yet, here you are, still persevering in reading this
+                  placeholder text, hoping for some more insights, or some
+                  hidden easter egg of content. A joke, perhaps. Unfortunately,
+                  there's none of that here.
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="cards-container"></div>
+  </body>
 </html>

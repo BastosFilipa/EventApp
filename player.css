@@ -91,10 +91,11 @@ body {
  width: 28vw;
 }
 #song-pic {
- height: 100%;
- width: 100%;
+ height: 60px;
+ width: 60px;
 }
 .controls-wrapper {
+  
  margin: 10px;
  height: 20vh;
  width: 28vw;
@@ -106,26 +107,20 @@ body {
  display: flex;
  justify-content: space-between;
  flex-direction: row;
+
 }
 .title a {
 color: var(--white-color);
  font-size: 0.8em;
  text-decoration: none;
 }
-#heart {
- transition: all .2s ease;
-}
-#heart:hover {
- color: var(--light-green);
- transform: scale(1.1);
-}
+
 .controls {
- width: 25vw;
- height: 10vh;
- justify-content: space-between;
- display: flex;
+
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 10px;
  align-items: center;
- margin: 0 auto;
 }
 .controls i {
  font-size: 20px;
@@ -136,30 +131,14 @@ color: var(--white-color);
 .controls-center {
  display: inline-block; 
  justify-content: center;
+ align-items: center;
+ text-align: center;
 }
-.footer {
- margin: 0 auto;
- margin-top: 20px;
- width: 28vw;
- height: 8px;
- background-color: var(--mild-color);
- border-radius: 15px;
- animation: horizontal 4s linear infinite;
-}
-@keyframes horizontal {
- 0% {
- background-color: var(--mild-color);
-} 
- 25%{
- background-color: var(--white-color);
-} 
-50% {
- background-color: var(--light-green);
-}
-70% {
- background-color: var(--dark-green);
-}
-100% {
- background-color: initial;
-}
-}
+
+.progress {
+    margin: 0 auto;
+    margin-top: 25px;
+    width: 28vw;
+    height: 8px;
+    border-radius: 15px;
+   }

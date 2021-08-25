@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="player.js"></script>
+    <link rel="stylesheet" href="player.css" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <div class="topnav">
+            <img src="https://image.flaticon.com/icons/svg/2111/2111624.svg" id="logo">
+            <span>Now Playing: <div id="small-text">Happy Now-Kygo</div></span>
+        </div>
+        <br>
+        <div class="center-wrapper">
+            <div class="center-content">
+                <div class="center-pic">
+                    <img src="https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d" id="song-pic">
+                </div>
+                <div class="controls-wrapper">
+                    <div class="title">
+                        <a href="#">Happy Now-Kygo</a>
+                        <a href="#"><i class='fas fa-heart' style="margin-right:10px;" id="heart"
+                                onclick="toggleLike()"></i></a>
+                    </div>
+                    <div class="controls">
+                        <i class='fas fa-random'></i>
+                        <div class="controls-center">
+                            <i class='fas fa-fast-backward'></i>
+                            <i class='far fa-play-circle' onclick="playAudio()"></i>
+                            <i class='far fa-pause-circle' onclick="pauseAudio()"></i>
+                            <i class='fas fa-fast-forward'></i>
+                        </div>
+                        <i class='fas fa-expand-arrows-alt'></i>
+                        <audio id="myAudio">
+                            <source
+                                src="https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3"
+                                type="audio/mp4">
+                        </audio>
+
+
+
+                    </div>
+                </div>
+                <div class="footer"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

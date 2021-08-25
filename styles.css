@@ -1,10 +1,4 @@
-li {
-  list-style-type: none;
-  text-align: center;
-  color: white;
-}
-
-#info {
+#cards-container {
   margin-top: 20px;
   background-color:#0b0600;
   display: flex;
@@ -15,13 +9,14 @@ li {
 
 .card {
   width: 23%;
-  padding: 20px;
-  background-color:rgba(29, 28, 28, 0.815);
+  height: 370px;
+  background-color:rgba(14, 13, 13, 0.973);
   margin-bottom: 15px;
+  padding: 10px;
 }
 
 @media only screen and (max-width: 600px) {
-  #info {
+  .info {
     flex-direction: column;
     min-width: 270px;
   }

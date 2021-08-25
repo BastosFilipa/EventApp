@@ -58,7 +58,7 @@ const Spotify = ( () => {
 
     let playlist = await response.json();
     let tracks = Object.entries(playlist)[0][1];
-    console.log(tracks);
+    //console.log(tracks);
     return tracks; 
   }
 

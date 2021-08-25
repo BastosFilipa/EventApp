@@ -1,4 +1,5 @@
 import {Spotify} from './spotify.js';
+import {Modal} from './modal.js';
 
 function eventsApiRequest(params = {}) {
     const apikey = '7elxdku9GGG5k8j0Xm8KWdANDgecHMV0';
@@ -24,6 +25,7 @@ $(document).ready(async function () {
         $('#info').append(track)
     });
 
+    Modal.openModal.show();
     
 
     console.log('app starting');

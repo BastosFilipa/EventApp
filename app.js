@@ -25,7 +25,7 @@ $(document).ready(async function () {
         $('#info').append(track)
     });
 
-    Modal.openModal.show();
+    Modal.openModal().show();
     
 
     console.log('app starting');

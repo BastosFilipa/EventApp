@@ -59,16 +59,17 @@ function getEventsFromResponse(data) {
 
 function groupDuplicateEvents(events = []) { //for existing event.name dont create a new card, just add the event date to the card with the same name.
     const duplicateChecker = {};
+    let newEvent;
 
     return events.reduce((uniqueEvents, event) => {
         if (duplicateChecker[event.name]) { // if already found event, just add new date
             duplicateChecker[event.name].dates.push(event.dates.start.localDate);
-
             return uniqueEvents;
 
         } else { // haven't seen this event, add to list
-            const newEvent = { // adapt data structure to my preference
-                name: event.name,
+            newEvent = { // adapt data structure to my preference
+                name: event.name.charAt(0).toUpperCase() + event.name.slice(1).toLowerCase(),
+                venue: event._embedded.venues[0]?.name,
                 image: event.images[0].url,
                 classification: event.classifications[0].genre.name,
                 status: event.dates.status.code,
@@ -80,14 +81,36 @@ function groupDuplicateEvents(events = []) { //for existing event.name dont crea
                 },
                 dates: [
                     event.dates.start.localDate,
-                ]
-            };
-            duplicateChecker[event.name] = newEvent; // mark event as found by name
+                ],
+                urlTicket: event._embedded.venues[0]?.url,
+                externalLinks: Object.keys(event._embedded?.attractions?.externalLinks ?? {}).reduce((cumulator, current) => {
 
-            return [...uniqueEvents, newEvent];
-        }
+                    console.log({ cumulator: cumulator, current: current });
+
+                    switch (current) {
+                        case 'facebook':
+                        case 'instagram':
+                        case 'twitter':
+                        case 'homepage':
+
+                            cumulator[current] = event._embedded.attractions.externalLinks[current][0].url;
+                            break;
+                    }
+
+                    consolo.log('cumulator1', cumulator);
+                    return cumulator;
+                }, {})
+            }
+
+        };
+
+        duplicateChecker[event.name] = newEvent; // mark event as found by name
+
+        return [...uniqueEvents, newEvent];
     }, []);
 }
+
+
 
 function renderResults(events = []) {
     console.log(events);
@@ -105,15 +128,20 @@ function renderEvent(event) {
         <img class="card-image" alt='${event.name} image' src='${event.image}' />
         <div class="card-text">
             <h4>${event.name}</h4>
+            <p>${event.venue}</p>
+            <a>${event.externalLinks}</a>
             <p>${event.classification} ${(event.dates.join(', '))}</p>
             <p>${event.status}</p>
             <p>${event.price.min} ${event.price.max}</p></div>
             <div class="buttons-container">
                 <button class="button-learnMore">Learn more</button>
-                <a class="button-share">Share this</a>
+                <a class="share">Share this</a>
         </div>
     </div>`;
 }
+
+
+
 
 function renderNoResults() {
     return '<span>No results found</span>';

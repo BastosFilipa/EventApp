@@ -14,48 +14,31 @@
  --light-black-bs: 20px 20px 60px #1a2125, 
              -20px -20px 60px #232d33;
 }
-body {
- background: var(--gradient);
- font-family: 'Open Sans', sans-serif;
- padding:0;
- margin: 0;
-}
 
 
 
-.center-wrapper {
- display: flex;
- justify-content: center;
- align-items: center;
- margin: 0 auto;
- height: 75vh;
- width: 100vw;
-}
+
+
 .center-content {
  display: flex;
  justify-content: center;
  flex-direction: column;
- margin-top: 5%;
+
  padding: 15px;
  height: inherit;
- width: 30vw;
+ width: 100%;
  background: var(--light-black);
- box-shadow: var(--light-black-bs);
+
 }
-.center-pic {
- margin: 10px;
- height: 45vh;
- width: 28vw;
-}
+
 #song-pic {
  height: 60px;
  width: 60px;
 }
 .controls-wrapper {
-  
  margin: 10px;
- height: 25vh;
- width: 28vw;
+
+
 }
 .player-title {
  width: 100%;
@@ -75,7 +58,7 @@ color: var(--white-color);
 .controls {
  display: grid;
  grid-template-columns: repeat(3, 1fr);
- gap: 10px;
+
  align-items: center;
 }
 .controls i {
@@ -98,7 +81,7 @@ i.on {
 .progress {
     margin: 0 auto;
     margin-top: 25px;
-    width: 28vw;
+
     height: 5px;
     border-radius: 15px;
    }
@@ -112,8 +95,8 @@ i.on {
     display: grid;
     align-items:center;
     grid-column-gap: 5px;
-    padding-bottom: 3px;
-    grid-template-columns: 15px 55px 280px 15px;
+    padding: 3px;
+    grid-template-columns: 15px 40px auto 40px;
     cursor: pointer;
 }
 

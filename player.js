@@ -185,25 +185,4 @@ const Player = (() => {
   };
 })();
 
-document.addEventListener("DOMContentLoaded", function () {
-  const tracks = [
-    {
-      id: 1,
-      name: "teste",
-      imageUrl:
-        "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
-      duration: 1200,
-      url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
-    },
-    {
-      id: 2,
-      name: "teste2",
-      imageUrl:
-        "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
-      duration: 1200,
-      url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
-    },
-  ];
-  Player.init();
-  Player.addTracks(tracks);
-});
+export {Player};

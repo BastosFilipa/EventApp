@@ -1,3 +1,5 @@
+import {Spotify} from './spotify.js';
+import {Player} from './player.js';
 const Modal = ( () => {
 
     function htmlToElements(html) {
@@ -26,7 +28,12 @@ const Modal = ( () => {
                   <img
                     src="https://s1.ticketm.net/dam/a/5ba/e61d38c6-4173-46fe-9b34-f84adf6295ba_1433851_EVENT_DETAIL_PAGE_16_9.jpg"
                     class="" alt="..." width="100%" />
+                    <div id="playerWrapper" class="center-content">
                 </div>
+                </div>
+             
+                
+             
   
                 <p>
                   A paragraph of placeholder text. We're using it here to show
@@ -66,10 +73,54 @@ const Modal = ( () => {
     </div>`;}
 
     function openModal() {
+      const tracks = [
+        {
+          id: 1,
+          name: "teste",
+          imageUrl:
+            "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
+          duration: 1200,
+          url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
+        },
+        {
+          id: 2,
+          name: "teste2",
+          imageUrl:
+            "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
+          duration: 1200,
+          url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
+        },
+        {
+          id: 3,
+          name: "teste2",
+          imageUrl:
+            "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
+          duration: 1200,
+          url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
+        },
+        {
+          id: 4,
+          name: "teste2",
+          imageUrl:
+            "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
+          duration: 1200,
+          url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
+        },
+        {
+          id: 5,
+          name: "teste2",
+          imageUrl:
+            "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
+          duration: 1200,
+          url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
+        },
+      ];
+
         const myModalEl = htmlToElements(modalTemplate());  
-        console.log(myModalEl);
         const domModal=document.body.appendChild(myModalEl[0]);
         const modal = bootstrap.Modal.getOrCreateInstance(domModal);
+        Player.init();
+        Player.addTracks(tracks);
        return modal;
     }
 

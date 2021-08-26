@@ -1,3 +1,13 @@
+/*
+const initApp = async () => {
+
+
+};
+
+document.addEventListener("DOMContentLoaded", initApp);
+*/
+
+
 function eventsApiRequest(params = {}) {
     const apikey = '7elxdku9GGG5k8j0Xm8KWdANDgecHMV0';
     let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apikey}`;
@@ -30,7 +40,11 @@ $(document).ready(function () {
     });
 });
 
+
+
+
 function searchInLocation(query) {
+    
     console.log('searching...');
 
     eventsApiRequest({ city: query })
@@ -62,15 +76,34 @@ function groupDuplicateEvents(events = []) { //for existing event.name dont crea
     let newEvent;
 
     return events.reduce((uniqueEvents, event) => {
-        if (duplicateChecker[event.name]) { // if already found event, just add new date
+        if (duplicateChecker[event.name] && duplicateChecker[event.name].dates.length < 4) { // if already found event, just add new date
             duplicateChecker[event.name].dates.push(event.dates.start.localDate);
             return uniqueEvents;
 
         } else { // haven't seen this event, add to list
             newEvent = { // adapt data structure to my preference
-                name: event.name.charAt(0).toUpperCase() + event.name.slice(1).toLowerCase(),
+                name: event.name,
+                image:event.images[0].url,
                 venue: event._embedded.venues[0]?.name,
-                image: event.images[0].url,
+                postalCode: event._embedded.venues[0].postalCode ?? '',
+                address: event._embedded.venues[0].address?.line1 ?? '',
+                city: event._embedded.venues[0].city.name,
+                venues: Object.keys(event._embedde?.venues[0] ?? {}).reduce((cumulator, current) => {
+                    console.log('current aqui', current)
+                    switch (current) {
+                        case 'city':
+                        case 'country':
+                        case 'state':
+
+                        cumulator[current] = event._embedded.venues[0][current].name;
+                        break;
+                    }
+                    return cumulator;
+                },{}),
+                location: {
+                    longitude: event._embedded.venues[0]?.location.longitude ?? '',
+                    latitude: event._embedded.venues[0]?.location.latitude ?? ''
+                },
                 classification: event.classifications[0].genre.name,
                 status: event.dates.status.code,
                 price: {
@@ -82,10 +115,8 @@ function groupDuplicateEvents(events = []) { //for existing event.name dont crea
                 dates: [
                     event.dates.start.localDate,
                 ],
-                urlTicket: event._embedded.venues[0]?.url,
+                urlTicket: event.url,
                 externalLinks: Object.keys(event._embedded?.attractions?.externalLinks ?? {}).reduce((cumulator, current) => {
-
-                    console.log({ cumulator: cumulator, current: current });
 
                     switch (current) {
                         case 'facebook':
@@ -96,8 +127,7 @@ function groupDuplicateEvents(events = []) { //for existing event.name dont crea
                             cumulator[current] = event._embedded.attractions.externalLinks[current][0].url;
                             break;
                     }
-
-                    consolo.log('cumulator1', cumulator);
+                    
                     return cumulator;
                 }, {})
             }
@@ -119,7 +149,7 @@ function renderResults(events = []) {
 }
 
 function renderEventsList(events) {
-    return events.map((event) => renderEvent(event)).join('');
+    return events.map(event => renderEvent(event)).join('');
 }
 
 function renderEvent(event) {
@@ -127,21 +157,19 @@ function renderEvent(event) {
     <div class="card">
         <img class="card-image" alt='${event.name} image' src='${event.image}' />
         <div class="card-text">
-            <h4>${event.name}</h4>
-            <p>${event.venue}</p>
-            <a>${event.externalLinks}</a>
-            <p>${event.classification} ${(event.dates.join(', '))}</p>
-            <p>${event.status}</p>
-            <p>${event.price.min} ${event.price.max}</p></div>
+            <h5>${event.name}</h5>
+            <div class="card-genre-details">
+                <p>${event.venue}</p>
+                <p>Genre: ${event.classification}<br><p class="card-date">${(event.dates.join(' | '))}</p></p>
+            </div>
+            <p class="card-status">${event.status}</p>
+            <p class="card-price">${event.price.min} ${event.price.max}</p></div>
             <div class="buttons-container">
                 <button class="button-learnMore">Learn more</button>
                 <a class="share">Share this</a>
         </div>
     </div>`;
 }
-
-
-
 
 function renderNoResults() {
     return '<span>No results found</span>';
@@ -150,3 +178,8 @@ function renderNoResults() {
 function handleErrors(err) {
     console.error(err);
 }
+
+
+{/* <p>${event.externalLinks.facebook}</p>
+<p>${event.venues.city}</p>
+<p>${event.venues.country}</p> */}

@@ -1,32 +1,209 @@
+const Player = (() => {
+  let player;
+  let play;
+  let pause;
+  let backward;
+  let currentTime;
+  let controls;
+  let progressBar;
 
+  const template = `
+  <div class="controls-wrapper">
+                    <div class="player-title">
+                        <a id="songTitle" href="#"></a>
+                        <a id="currentTime" href="#"></a>
+                    </div>
+                    <div class="controls">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" id="song-pic" >
+                        <div class="controls-center">
+                            <i class='fas fa-fast-backward' id="backward"></i>
+                            <i class='far fa-play-circle' id="play" ></i>
+                            <i class='far fa-pause-circle' id="pause" ></i>   
+                        </div>
+                        <audio id="myAudio">
+                            <source
+                                src=""
+                                type="audio/mp4">
+                        </audio>
 
-function convert(value) {
-  return Math.floor(value / 60) + ":" + (value % 60 ? value % 60 : '00').toFixed(0).padStart(2, '0');
-}
-  document.addEventListener("DOMContentLoaded", function() {
+                    </div>
+                    <div class="progress" >
+                        <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"  aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                      <div class="tracks">
+                        
+                      </div>
+  </div>
+  `;
 
-    const player = document.getElementById("myAudio"); 
-    const play = document.getElementById("play"); 
-    const pause = document.getElementById("pause"); 
-    const currentTime = document.getElementById("currentTime");
-    let progressBar = document.getElementById("progressBar");
+  function removeClass(element, className) {
+    element.classList.remove(className);
+  }
+  function addClass(element, className) {
+    element.classList.add(className);
+  }
 
-    currentTime.innerHTML = "0:00";
-    play.addEventListener("click", function() {   player.play(); });
-    pause.addEventListener("click", function() {   player.pause(); });
+  function removeOnClass() {
+    for (let element of controls) {
+      removeClass(element, "on");
+    }
+  }
 
-    player.addEventListener('loadedmetadata',function(){
-      currentTime.innerHTML =convert(player.duration);
-  },false);
-    
-    player.addEventListener('timeupdate',function(){
-      let currentTimeMs = player.currentTime;
-      let percentPlayed = (currentTimeMs / player.duration) * 100;
-      progressBar.style.width = percentPlayed + "%";
-      currentTime.innerHTML = convert(player.duration - currentTimeMs);
-  },false);
+  function formatToSeconds(value) {
+    if(isNaN(value)){
+      return "0:00";
+    }
+    return (
+      Math.floor(value / 60) +
+      ":" +
+      (value % 60 ? value % 60 : 0).toFixed(0).padStart(2, "0")
+    );
+  }
 
+  function playMusic() {
+    if (player.src !== "") {
+      player.play();
+      addClass(play, "on");
+      removeClass(pause, "on");
+    }
+  }
 
-   
+  function pauseMusic() {
+    if (player.src !== "") {
+      player.pause();
+      addClass(pause, "on");
+      removeClass(play, "on");
+    }
+  }
 
-  });
+  function backwardMusic() {
+    if (player.src !== "") {
+      player.currentTime = 0;
+      player.pause();
+      removeClass(play, "on");
+      addClass(pause, "on");
+    }
+  }
+
+  function updateProgressBar() {
+    let percentPlayed = (player.currentTime / player.duration) * 100;
+    progressBar.style.width = percentPlayed + "%";
+  }
+
+  function updateCurrentTime(time) {
+
+    currentTime.innerHTML = formatToSeconds(time);
+  }
+
+  function addTracks(tracks) {
+    let tracksContainer = document.querySelector(".tracks");
+    for (let track of tracks) {
+      let trackElement = document.createElement("div");
+      trackElement.classList.add("track");
+      trackElement.dataset.id = track.id;
+      trackElement.dataset.url = track.url;
+      trackElement.dataset.duration = track.duration;
+      trackElement.innerHTML = `
+      <div class="track-info">${track.id}</div>
+     
+      <img src="${track.imageUrl}">
+      <div class="track-name">${track.name}</div>
+      <div class="track-duration">${formatToSeconds(track.duration)}</div>
+      `;
+      tracksContainer.appendChild(trackElement);
+      trackElement.addEventListener("click", () => {
+        playTrack(trackElement);
+      });
+    }
+  }
+
+  function setPlayerInfo(trackName, imageUrl) {
+    document.querySelector("#songTitle").innerHTML = trackName;
+    document.querySelector("#song-pic").src = imageUrl;
+  }
+
+  function playTrack(trackElement) {
+    let currentPlaying = document.querySelector(".track-playing");
+    if (currentPlaying) {
+      currentPlaying.classList.remove("track-playing");
+      currentPlaying.querySelector(".track-info").innerHTML =
+        currentPlaying.dataset.id;
+    }
+    let trackUrl = trackElement.dataset.url;
+    let trackImageUrl = trackElement.querySelector("img").src;
+    let trackName = trackElement.querySelector(".track-name").innerHTML;
+    trackElement.classList.add("track-playing");
+    trackElement.querySelector(".track-info").innerHTML =
+      " <i class='fas fa-play'></i>";
+
+    setPlayerInfo(trackName, trackImageUrl);
+    player.src = trackUrl;
+    playMusic();
+  }
+
+  function addEventListeners() {
+    // add event listeners to the controls
+    play.addEventListener("click", playMusic);
+    pause.addEventListener("click", pauseMusic);
+    backward.addEventListener("click", backwardMusic);
+    player.addEventListener(
+      "loadedmetadata",
+      function () {
+        updateCurrentTime(player.duration);
+      },
+      false
+    );
+    player.addEventListener(
+      "timeupdate",
+      function () {
+        updateProgressBar();
+        updateCurrentTime(player.duration - player.currentTime);
+      },
+      false
+    );
+  }
+
+  function setElements() {
+    player = document.querySelector("#myAudio");
+    play = document.querySelector("#play");
+    pause = document.querySelector("#pause");
+    backward = document.querySelector("#backward");
+    currentTime = document.querySelector("#currentTime");
+    controls = document.querySelectorAll(".controls-center");
+    progressBar = document.querySelector("#progressBar");
+  }
+
+  function init() {
+    document.getElementById("playerWrapper").innerHTML = template;
+    setElements();
+    addEventListeners();
+  }
+
+  return {
+    init,
+    addTracks,
+  };
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+  const tracks = [
+    {
+      id: 1,
+      name: "teste",
+      imageUrl:
+        "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
+      duration: 1200,
+      url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
+    },
+    {
+      id: 2,
+      name: "teste2",
+      imageUrl:
+        "https://i.scdn.co/image/ab67616d0000b27382c80d6ec5b001d9ae49564d",
+      duration: 1200,
+      url: "https://api.freeplaymusic.com/media/downloadable/files/link_samples/media/volume/tracks/Etheral_Movements_Volume_1/m/a/martian_bayou_60.mp3",
+    },
+  ];
+  Player.init();
+  Player.addTracks(tracks);
+});

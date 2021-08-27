@@ -18,7 +18,7 @@ function eventsApiRequest(params = {}) {
 
 let actualPage = 0;
 let city;
-let defaultDate = new Date().toISOString().slice(0, 10);
+let defaultDate = new Date().toISOString().replace(".000Z", "Z");
 
 
 
@@ -56,7 +56,7 @@ function searchInLocation(query, page = 0, date = defaultDate) {
   console.log("searching...");
   console.log(date);
 
-  eventsApiRequest({ startDateTime: date})
+  eventsApiRequest({ city: query, page: page, startDateTime: date})
     .then(parseResponse) // async deserialize response json
     .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)
@@ -183,7 +183,7 @@ function addObserver() {
 
       actualPage++;
       console.log(actualPage);
-      searchInLocation(city, actualPage);
+      searchInLocation(city, actualPage, defaultDate);
     }
   };
   const observer = new IntersectionObserver(callback, options);

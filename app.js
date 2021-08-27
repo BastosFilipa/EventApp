@@ -16,6 +16,8 @@ function eventsApiRequest(params = {}) {
     return fetch(url);
 }
 
+let actualPage = 0;
+let city;
 
 $(document).ready(async function () {
 
@@ -25,7 +27,9 @@ $(document).ready(async function () {
         $('#info').append(track)
     });
 
+
     Modal.openModal().show();
+    
     
 
     console.log('app starting');
@@ -33,19 +37,20 @@ $(document).ready(async function () {
     $('#location').change((event) => {
         console.log('mudou', event.target.value);
         let query = event.target.value;
+        city = query;
 
         if (!query) {
             return;
         }
-
+$('#cards-container').html('');
         searchInLocation(query);
     });
 });
 
-function searchInLocation(query) {
+function searchInLocation(query, page = 0) {
     console.log('searching...');
 
-    eventsApiRequest({ city: query })
+    eventsApiRequest({ city: query , page: page})
         .then(parseResponse) // async deserialize response json
         .then(getEventsFromResponse) // extract useful info
         .then(groupDuplicateEvents)
@@ -103,9 +108,49 @@ function groupDuplicateEvents(events = []) { //for existing event.name dont crea
 
 function renderResults(events = []) {
     console.log(events);
+  
+    $('#cards-container').append((events.length > 0) ? renderEventsList(events) : renderNoResults());
 
-    $('#cards-container').html((events.length > 0) ? renderEventsList(events) : renderNoResults());
-}
+    addObserver();
+ }
+
+ function addObserver(){
+    let allEvents = document.querySelector('#cards-container');
+    let lastEvent = allEvents.lastChild;
+    console.log(lastEvent);
+
+  
+
+    if(lastEvent.tagName.toLowerCase() == 'span'){
+        console.log('sai');
+        return;
+    }
+        const options = {
+            rootMargin: '0px',
+            threshold: 0.3
+            
+        }
+        const callback = (el, ol) => {
+            
+            
+            if(el[0].intersectionRatio > 0){
+                //console.log(el);
+                observer.unobserve(lastEvent);
+
+                actualPage++;
+                console.log(actualPage);
+                searchInLocation(city, actualPage);
+            }
+        }
+        const observer = new IntersectionObserver(callback, options);
+        
+        observer.observe(lastEvent);
+        
+    
+        
+    
+
+ }
 
 function renderEventsList(events) {
     return events.map((event) => renderEvent(event)).join('');

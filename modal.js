@@ -26,7 +26,7 @@ const Modal = (() => {
   
                   <img
                     src="https://s1.ticketm.net/dam/a/5ba/e61d38c6-4173-46fe-9b34-f84adf6295ba_1433851_EVENT_DETAIL_PAGE_16_9.jpg"
-                    class="" alt="..." width="100%" />
+                    class="modal-image" alt="..." width="100%" />
                     <div id="playerWrapper" class="center-content">
                 </div>
                 </div>
@@ -85,8 +85,12 @@ const Modal = (() => {
 
 
   async function setModal(event) {
-   
-     modal.show();
+    document.querySelector(".modal-title").innerText = event.name;
+    document.querySelector(".modal-image").src = event.image;
+
+
+
+    modal.show();
     let tracks;
     Player.reset();
     try { 
@@ -97,6 +101,7 @@ const Modal = (() => {
       Player.addTracks(tracks);
     }
    
+    
     
 
    

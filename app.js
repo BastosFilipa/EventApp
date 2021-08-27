@@ -88,7 +88,9 @@ function groupDuplicateEvents(events = []) {
       newEvent = {
         // adapt data structure to my preference
         name: event.name,
-        image: event.images[0].url,
+        image: event.images.filter((image) => {
+          return  image.ratio == "16_9" && image.width >= 300;Fixed
+         })[0].url, //event.images[1].url,
         venue: event._embedded.venues[0]?.name,
         postalCode: event._embedded.venues[0].postalCode ?? "",
         address: event._embedded.venues[0].address?.line1 ?? "",

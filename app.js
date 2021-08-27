@@ -65,8 +65,7 @@ function getEventsFromResponse(data) {
   return data._embedded?.events; // ?. operator returns undefined if previous identifier does not exist
 }
 
-function groupDuplicateEvents(events = []) {
-  //for existing event.name dont create a new card, just add the event date to the card with the same name.
+function groupDuplicateEvents(events = []) { //for existing event.name dont create a new card, just add the event date to the card with the same name.
   const duplicateChecker = {};
   let newEvent;
 
@@ -184,22 +183,19 @@ function renderEventsList(events) {
 function renderEvent(event) {
   return `
     <div class="card">
-        <img class="card-image" alt='${event.name} image' src='${
-    event.image
-  }' />
+        <div class="card-image">
+        <img alt='${event.name} image' src='${event.image}' />
+        </div>
         <div class="card-text">
             <h5>${event.name}</h5>
             <div class="card-genre-details">
                 <p>${event.venue}</p>
-                <p>Genre: ${
-                  event.classification
-                }<br><p class="card-date">${event.dates.join(" | ")}</p></p>
-            </div>
-            <p class="card-status">${event.status}</p>
-            <p class="card-price">${event.price.min} ${
-    event.price.max
-  }</p></div>
-            <div class="buttons-container">
+                <p>Genre: ${ event.classification }<br>
+                <p class="card-date">${event.dates.join(" | ")}</p></p>
+        </div>
+        <p class="card-status">${event.status}</p>
+        <span class="card-price">${event.price.min} ${ event.price.max }</span>
+        <div class="buttons-container">
                 <button class="button-learnMore">Learn more</button>
                 <a class="share">Share this</a>
         </div>

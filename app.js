@@ -2,8 +2,7 @@ import { Modal } from "./modal.js";
 
 function eventsApiRequest(params = {}) {
   const apikey = "7elxdku9GGG5k8j0Xm8KWdANDgecHMV0";
-/*   let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apikey}`;
- */  let url = `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=${apikey}`;
+  let url = `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=${apikey}`;
 
   let uriParams = Object.keys(params).reduce((cumulative, key) => {
     return cumulative + `&${key}=${encodeURIComponent(params[key])}`;
@@ -20,12 +19,9 @@ let actualPage = 0;
 let city;
 let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 
-
-
 $(document).ready(async function () {
-  
   Modal.init();
-  
+  searchInLocation();
 
   // bind the event handler to the input box
   $("#location").change((event) => {
@@ -33,14 +29,13 @@ $(document).ready(async function () {
     let query = event.target.value;
     city = query;
 
-   if(document.getElementById("calendar").value){
-       let getDate = document.getElementById("calendar").value;
-       defaultDate = new Date(getDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
-       console.log(defaultDate);
-   }
+    if (document.getElementById("calendar").value) {
+      let getDate = document.getElementById("calendar").value;
+      defaultDate = new Date(getDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
+      console.log(defaultDate);
+    }
 
     if (!query) {
-      console.log("no query");
       return;
     }
     $("#cards-container").html("");
@@ -48,15 +43,15 @@ $(document).ready(async function () {
   });
 });
 
-
-
 function searchInLocation(query, page = 0, date = defaultDate) {
-  console.log("searching...");
-  console.log(date);
+  let params = { city: query, page: page, startDateTime: date };
+  if (!query) {
+    params = { page: page, startDateTime: date };
+  }
 
-  eventsApiRequest({ city: query, page: page, startDateTime: date})
-    .then(parseResponse) 
-    .then(getEventsFromResponse) 
+  eventsApiRequest(params)
+    .then(parseResponse) // async deserialize response json
+    .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)
     .then(renderResults)
     .then(bindModal)
@@ -93,7 +88,9 @@ function groupDuplicateEvents(events = []) {
       newEvent = {
         // adapt data structure to my preference
         name: event.name,
-        image: event.images[0].url,
+        image: event.images.filter((image) => {
+          return  image.ratio == "16_9" && image.width >= 300;
+         })[0].url, //event.images[1].url,
         venue: event._embedded.venues[0]?.name,
         postalCode: event._embedded.venues[0].postalCode ?? "",
         address: event._embedded.venues[0].address?.line1 ?? "",
@@ -158,18 +155,19 @@ function renderResults(events = []) {
   $("#cards-container").append(
     events.length > 0 ? renderEventsList(events) : renderNoResults()
   );
-
- 
 }
 
-function bindModal(){
-    document.querySelectorAll(".button-learnMore").forEach(card => {
-        card.addEventListener("click", () => {
-            let eventObj = JSON.parse(decodeURIComponent(card.dataset.event).replace('";', ''));
-            Modal.setModal(eventObj);
-        });
-    });
+function bindModal(results) {
+  document.querySelectorAll('.button-learnMore:not([data-binded="true"]').forEach((card) => {
+    card.setAttribute("data-binded", "true");
+      card.addEventListener("click", () => {
+        let eventObj = JSON.parse(
+          decodeURIComponent(card.dataset.event).replace('";', "")
+        );
+        Modal.setModal(eventObj);
+      });
     
+  });
 }
 
 function addObserver() {
@@ -191,7 +189,6 @@ function addObserver() {
       observer.unobserve(lastEvent);
 
       actualPage++;
-      console.log(actualPage);
       searchInLocation(city, actualPage, defaultDate);
     }
   };
@@ -204,7 +201,6 @@ function renderEventsList(events) {
   return events.map((event) => renderEvent(event)).join("");
 }
 
-
 function renderEvent(event) {
   return `
     <div class="card">
@@ -212,23 +208,21 @@ function renderEvent(event) {
           <img alt='${event.name} image' src='${event.image}' />
         </div>
         <div class="card-text">
-          <h5>${event.name}</h5>
-          <div class="card-genre-details">
-              <p class="card-venue">${event.venue}</p>
-              <p class="card-classification">${event.classification}<br>
-                <p class="card-date">${event.dates.join(" ")}</p>
-              </p>
+            <h5>${event.name}</h5>
+            <div class="card-genre-details">
+                <p class="card-venue">${event.venue}</p>
+                <p class="card-classification">${event.classification}<br>
+                  <p class="card-date">${event.dates.join(" ")}</p>
+                </p>
+            </div>
+            <div class="card-status-details">${event.status} ${event.price.min} ${event.price.max}</div>
           </div>
-          <div class="card-status-details">${event.status} ${event.price.min} ${event.price.max}</div>
-        </div>
-        <div class="buttons-container">
-            <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))}>Learn more</button>
+          <div class="buttons-container">
+            <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
             <a class="share">Share this</a>
         </div>
     </div>`;
 }
-
-
 
 function renderNoResults() {
   return "<span>No results found</span>";
@@ -237,7 +231,3 @@ function renderNoResults() {
 function handleErrors(err) {
   console.error(err);
 }
-
-/* <p>${event.externalLinks.facebook}</p>
-<p>${event.venues.city}</p>
-<p>${event.venues.country}</p> */

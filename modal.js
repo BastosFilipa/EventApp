@@ -26,7 +26,7 @@ const Modal = (() => {
   
                   <img
                     src="https://s1.ticketm.net/dam/a/5ba/e61d38c6-4173-46fe-9b34-f84adf6295ba_1433851_EVENT_DETAIL_PAGE_16_9.jpg"
-                    class="" alt="..." width="100%" />
+                    class="modal-image" alt="..." width="100%" />
                     <div id="playerWrapper" class="center-content">
                 </div>
                 </div>
@@ -79,25 +79,32 @@ const Modal = (() => {
     const domModal = document.body.appendChild(myModalEl[0]);
     modal = bootstrap.Modal.getOrCreateInstance(domModal);
     Player.init("playerWrapper");
+    
   }
 
 
 
   async function setModal(event) {
-    let tracks;
+    document.querySelector(".modal-title").innerText = event.name;
+    document.querySelector(".modal-image").src = event.image;
 
-    Player.reset();
-    try {
-      tracks = await Spotify.getArtistTracks(event.name);
-      
-      
-    } catch (error) {
-      
-    }
-    
-    Player.addTracks(tracks);
-    
+
+
     modal.show();
+    let tracks;
+    Player.reset();
+    try { 
+      tracks = await Spotify.getArtistTracks(event.name);
+    } catch (error) {
+      throw new Error("No artist tracks found")
+    }finally{
+      Player.addTracks(tracks);
+    }
+   
+    
+    
+
+   
     
   }
 

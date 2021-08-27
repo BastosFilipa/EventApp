@@ -2,7 +2,8 @@ import { Modal } from "./modal.js";
 
 function eventsApiRequest(params = {}) {
   const apikey = "7elxdku9GGG5k8j0Xm8KWdANDgecHMV0";
-  let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apikey}`;
+/*   let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apikey}`;
+ */  let url = `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=${apikey}`;
 
   let uriParams = Object.keys(params).reduce((cumulative, key) => {
     return cumulative + `&${key}=${encodeURIComponent(params[key])}`;
@@ -28,7 +29,7 @@ $(document).ready(async function () {
 
   // bind the event handler to the input box
   $("#location").change((event) => {
-    console.log("mudou", event.target.value);
+    
     let query = event.target.value;
     city = query;
 
@@ -54,8 +55,8 @@ function searchInLocation(query, page = 0, date = defaultDate) {
   console.log(date);
 
   eventsApiRequest({ city: query, page: page, startDateTime: date})
-    .then(parseResponse) // async deserialize response json
-    .then(getEventsFromResponse) // extract useful info
+    .then(parseResponse) 
+    .then(getEventsFromResponse) 
     .then(groupDuplicateEvents)
     .then(renderResults)
     .then(bindModal)
@@ -69,7 +70,7 @@ function parseResponse(response) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  return response.json(); //data
+  return response.json(); 
 }
 
 function getEventsFromResponse(data) {
@@ -78,11 +79,11 @@ function getEventsFromResponse(data) {
   return data._embedded?.events; // ?. operator returns undefined if previous identifier does not exist
 }
 
-function groupDuplicateEvents(events = []) { //for existing event.name dont create a new card, just add the event date to the card with the same name.
+function groupDuplicateEvents(events = []) {
   const duplicateChecker = {};
   let newEvent;
-
   return events.reduce((uniqueEvents, event) => {
+    // for existing event.name dont create a new card, just add the event date to the card with the same name.
     if (duplicateChecker[event.name]) {
       // if already found event, just add new date
       duplicateChecker[event.name].dates.push(event.dates.start.localDate);
@@ -118,7 +119,7 @@ function groupDuplicateEvents(events = []) { //for existing event.name dont crea
         classification: event.classifications[0].genre.name,
         status: event.dates.status.code,
         price: {
-          min: event.priceRanges ? `${event.priceRanges[0]?.min}€` : "",
+          min: event.priceRanges ? `| ${event.priceRanges[0]?.min}€` : "",
           max:
             event.priceRanges &&
             event.priceRanges[0]?.min !== event.priceRanges[0]?.max
@@ -208,23 +209,21 @@ function renderEvent(event) {
   return `
     <div class="card">
         <div class="card-image">
-        <img alt='${event.name} image' src='${event.image}' />
+          <img alt='${event.name} image' src='${event.image}' />
         </div>
         <div class="card-text">
-            <h5>${event.name}</h5>
-            <div class="card-genre-details">
-                <p>${event.venue}</p>
-                <p>Genre: ${
-                  event.classification
-                }<br><p class="card-date">${event.dates.join(" | ")}</p></p>
-            </div>
-            <p class="card-status">${event.status}</p>
-            <p class="card-price">${event.price.min} ${
-    event.price.max
-  }</p></div>
-            <div class="buttons-container">
-                <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
-                <a class="share">Share this</a>
+          <h5>${event.name}</h5>
+          <div class="card-genre-details">
+              <p class="card-venue">${event.venue}</p>
+              <p class="card-classification">${event.classification}<br>
+                <p class="card-date">${event.dates.join(" ")}</p>
+              </p>
+          </div>
+          <div class="card-status-details">${event.status} ${event.price.min} ${event.price.max}</div>
+        </div>
+        <div class="buttons-container">
+            <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))}>Learn more</button>
+            <a class="share">Share this</a>
         </div>
     </div>`;
 }

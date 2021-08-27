@@ -18,17 +18,29 @@ function eventsApiRequest(params = {}) {
 
 let actualPage = 0;
 let city;
+let date;
+
+
 
 $(document).ready(async function () {
   //Modal.setModal().then((e) => e.show());
 
   console.log("app starting");
 
+
+
   // bind the event handler to the input box
   $("#location").change((event) => {
     console.log("mudou", event.target.value);
     let query = event.target.value;
     city = query;
+
+   if(document.getElementById("calendar").value){
+       let getDate = document.getElementById("calendar").value;
+       console.log(date);
+       date = getDate;
+
+   }
 
     if (!query) {
       console.log("no query");
@@ -39,10 +51,12 @@ $(document).ready(async function () {
   });
 });
 
-function searchInLocation(query, page = 0) {
+
+
+function searchInLocation(query, page = 0, date) {
   console.log("searching...");
 
-  eventsApiRequest({ city: query, page: page })
+  eventsApiRequest({ city: query, page: page, startDateTime: date})
     .then(parseResponse) // async deserialize response json
     .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)
@@ -169,7 +183,7 @@ function addObserver() {
 
       actualPage++;
       console.log(actualPage);
-      searchInLocation(city, actualPage);
+      searchInLocation(city, actualPage, date);
     }
   };
   const observer = new IntersectionObserver(callback, options);

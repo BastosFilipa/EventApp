@@ -18,7 +18,7 @@ function eventsApiRequest(params = {}) {
 
 let actualPage = 0;
 let city;
-let date;
+let defaultDate = new Date().toISOString().slice(0, 10);
 
 
 
@@ -26,7 +26,7 @@ $(document).ready(async function () {
   //Modal.setModal().then((e) => e.show());
 
   console.log("app starting");
-
+  
 
 
   // bind the event handler to the input box
@@ -37,8 +37,8 @@ $(document).ready(async function () {
 
    if(document.getElementById("calendar").value){
        let getDate = document.getElementById("calendar").value;
-       date = getDate;
-       console.log(date);
+       defaultDate = new Date(getDate).toISOString().replace(".000Z", "Z");
+       console.log(defaultDate);
    }
 
     if (!query) {
@@ -52,10 +52,11 @@ $(document).ready(async function () {
 
 
 
-function searchInLocation(query, page = 0, date) {
+function searchInLocation(query, page = 0, date = defaultDate) {
   console.log("searching...");
+  console.log(date);
 
-  eventsApiRequest({ city: query, page: page, startDateTime: date})
+  eventsApiRequest({ startDateTime: date})
     .then(parseResponse) // async deserialize response json
     .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)

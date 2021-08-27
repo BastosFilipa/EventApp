@@ -89,14 +89,14 @@ const Modal = (() => {
     Player.reset();
     try {
       tracks = await Spotify.getArtistTracks(event.name);
-      
+      Player.addTracks(tracks);
       
     } catch (error) {
       
     }
     
-    Player.addTracks(tracks);
     
+
     modal.show();
     
   }

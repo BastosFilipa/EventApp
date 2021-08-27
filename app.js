@@ -37,9 +37,8 @@ $(document).ready(async function () {
 
    if(document.getElementById("calendar").value){
        let getDate = document.getElementById("calendar").value;
-       console.log(date);
        date = getDate;
-
+       console.log(date);
    }
 
     if (!query) {
@@ -183,7 +182,7 @@ function addObserver() {
 
       actualPage++;
       console.log(actualPage);
-      searchInLocation(city, actualPage, date);
+      searchInLocation(city, actualPage);
     }
   };
   const observer = new IntersectionObserver(callback, options);

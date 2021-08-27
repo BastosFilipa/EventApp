@@ -17,6 +17,9 @@ function eventsApiRequest(params = {}) {
 
 let actualPage = 0;
 let city;
+let defaultDate = new Date().toISOString().replace(".000Z", "Z");
+
+
 
 $(document).ready(async function () {
   
@@ -29,6 +32,12 @@ $(document).ready(async function () {
     let query = event.target.value;
     city = query;
 
+   if(document.getElementById("calendar").value){
+       let getDate = document.getElementById("calendar").value;
+       defaultDate = new Date(getDate).toISOString().replace(".000Z", "Z");
+       console.log(defaultDate);
+   }
+
     if (!query) {
       console.log("no query");
       return;
@@ -38,10 +47,13 @@ $(document).ready(async function () {
   });
 });
 
-function searchInLocation(query, page = 0) {
-  console.log("searching...");
 
-  eventsApiRequest({ city: query, page: page })
+
+function searchInLocation(query, page = 0, date = defaultDate) {
+  console.log("searching...");
+  console.log(date);
+
+  eventsApiRequest({ city: query, page: page, startDateTime: date})
     .then(parseResponse) // async deserialize response json
     .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)
@@ -180,7 +192,7 @@ function addObserver() {
 
       actualPage++;
       console.log(actualPage);
-      searchInLocation(city, actualPage);
+      searchInLocation(city, actualPage, defaultDate);
     }
   };
   const observer = new IntersectionObserver(callback, options);

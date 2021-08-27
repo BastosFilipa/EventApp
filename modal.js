@@ -1,14 +1,13 @@
-import {Spotify} from './spotify.js';
-import {Player} from './player.js';
-const Modal = ( () => {
-
-    function htmlToElements(html) {
-        const template = document.createElement('template');
-        template.innerHTML = html;
-        return template.content.childNodes;
-    }
-    const modalTemplate =() =>{ 
-        return `<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+import { Spotify } from "./spotify.js";
+import { Player } from "./player.js";
+const Modal = (() => {
+  let modal;
+  function htmlToElements(html) {
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    return template.content.childNodes;
+  }
+  const modalTemplate = `<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
             <div class="modal-header">
@@ -73,30 +72,36 @@ const Modal = ( () => {
           </div>
         </div>
       </div>
-    </div>`;}
+    </div>`;
 
-   async function getSpotifyTracks(){
-  
-    let topTracks  = await Spotify.getArtistTracks("Tom Zé");
-    return topTracks;
-   } 
-   
-   async function setModal() {
-   
+  function init() {
+    const myModalEl = htmlToElements(modalTemplate);
+    const domModal = document.body.appendChild(myModalEl[0]);
+    modal = bootstrap.Modal.getOrCreateInstance(domModal);
+    Player.init("playerWrapper");
+  }
 
-        const myModalEl = htmlToElements(modalTemplate());  
-        const domModal=document.body.appendChild(myModalEl[0]);
-        const modal = bootstrap.Modal.getOrCreateInstance(domModal);
-        Player.init();
-        let tracks = await getSpotifyTracks();
-        Player.addTracks(tracks);
+
+
+  async function setModal(event) {
+    
+    Player.reset();
+    try {
+      let tracks = await Spotify.getArtistTracks(event.name);
+     
+      Player.addTracks(tracks);
       
-       return modal;
+    } catch (error) {
+      
     }
+    modal.show();
+    
+  }
 
-    return {
-      setModal
-    }
-} )();
+  return {
+    init,
+    setModal,
+  };
+})();
 
 export { Modal };

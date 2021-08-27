@@ -1,4 +1,3 @@
-import { Spotify } from "./spotify.js";
 import { Modal } from "./modal.js";
 
 function eventsApiRequest(params = {}) {
@@ -20,9 +19,9 @@ let actualPage = 0;
 let city;
 
 $(document).ready(async function () {
-  //Modal.setModal().then((e) => e.show());
-
-  console.log("app starting");
+  
+  Modal.init();
+  
 
   // bind the event handler to the input box
   $("#location").change((event) => {
@@ -47,6 +46,8 @@ function searchInLocation(query, page = 0) {
     .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)
     .then(renderResults)
+    .then(bindModal)
+    .then(addObserver)
     .catch(handleErrors);
 }
 
@@ -146,7 +147,17 @@ function renderResults(events = []) {
     events.length > 0 ? renderEventsList(events) : renderNoResults()
   );
 
-  addObserver();
+ 
+}
+
+function bindModal(){
+    document.querySelectorAll(".button-learnMore").forEach(card => {
+        card.addEventListener("click", () => {
+            let eventObj = JSON.parse(decodeURIComponent(card.dataset.event).replace('";', ''));
+            Modal.setModal(eventObj);
+        });
+    });
+    
 }
 
 function addObserver() {
@@ -181,6 +192,7 @@ function renderEventsList(events) {
   return events.map((event) => renderEvent(event)).join("");
 }
 
+
 function renderEvent(event) {
   return `
     <div class="card">
@@ -200,11 +212,13 @@ function renderEvent(event) {
     event.price.max
   }</p></div>
             <div class="buttons-container">
-                <button class="button-learnMore">Learn more</button>
+                <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
                 <a class="share">Share this</a>
         </div>
     </div>`;
 }
+
+
 
 function renderNoResults() {
   return "<span>No results found</span>";

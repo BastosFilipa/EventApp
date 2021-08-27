@@ -20,31 +20,22 @@ let actualPage = 0;
 let city;
 
 $(document).ready(async function () {
-  Modal.setModal().then((e) => e.show());
+  //Modal.setModal().then((e) => e.show());
 
   console.log("app starting");
+
   // bind the event handler to the input box
   $("#location").change((event) => {
     console.log("mudou", event.target.value);
     let query = event.target.value;
+    city = query;
 
-    
-
-   // Modal.openModal().show();
-
-    console.log("app starting");
-    // bind the event handler to the input box
-    $("#location").change((event) => {
-      console.log("mudou", event.target.value);
-      let query = event.target.value;
-      city = query;
-
-      if (!query) {
-        return;
-      }
-      $("#cards-container").html("");
-        searchInLocation(query);
-    });
+    if (!query) {
+      console.log("no query");
+      return;
+    }
+    $("#cards-container").html("");
+    searchInLocation(query);
   });
 });
 
@@ -74,74 +65,78 @@ function getEventsFromResponse(data) {
   return data._embedded?.events; // ?. operator returns undefined if previous identifier does not exist
 }
 
+function groupDuplicateEvents(events = []) {
+  //for existing event.name dont create a new card, just add the event date to the card with the same name.
+  const duplicateChecker = {};
+  let newEvent;
 
-function groupDuplicateEvents(events = []) { //for existing event.name dont create a new card, just add the event date to the card with the same name.
-    const duplicateChecker = {};
-    let newEvent;
-
-    return events.reduce((uniqueEvents, event) => {
-        if (duplicateChecker[event.name]) { // if already found event, just add new date
-            duplicateChecker[event.name].dates.push(event.dates.start.localDate);
-            return uniqueEvents;
-
-        } else { // haven't seen this event, add to list
-            newEvent = { // adapt data structure to my preference
-                name: event.name,
-                image:event.images[0].url,
-                venue: event._embedded.venues[0]?.name,
-                postalCode: event._embedded.venues[0].postalCode ?? '',
-                address: event._embedded.venues[0].address?.line1 ?? '',
-                city: event._embedded.venues[0].city.name,
-                venues: Object.keys(event._embedde?.venues[0] ?? {}).reduce((cumulator, current) => {
-                    console.log('current aqui', current)
-                    switch (current) {
-                        case 'city':
-                        case 'country':
-                        case 'state':
-
-                        cumulator[current] = event._embedded.venues[0][current].name;
-                        break;
-                    }
-                    return cumulator;
-                },{}),
-                location: {
-                    longitude: event._embedded.venues[0]?.location.longitude ?? '',
-                    latitude: event._embedded.venues[0]?.location.latitude ?? ''
-                },
-                classification: event.classifications[0].genre.name,
-                status: event.dates.status.code,
-                price: {
-                    min: event.priceRanges ? `${event.priceRanges[0]?.min}€` : '',
-                    max: event.priceRanges &&
-                        event.priceRanges[0]?.min !== event.priceRanges[0]?.max ?
-                        `- ${event.priceRanges[0]?.max}€` : '',
-                },
-                dates: [
-                    event.dates.start.localDate,
-                ],
-                urlTicket: event.url,
-                externalLinks: Object.keys(event._embedded?.attractions?.externalLinks ?? {}).reduce((cumulator, current) => {
-
-                    switch (current) {
-                        case 'facebook':
-                        case 'instagram':
-                        case 'twitter':
-                        case 'homepage':
-
-                            cumulator[current] = event._embedded.attractions.externalLinks[current][0].url;
-                            break;
-                    }
-                    
-                    return cumulator;
-                }, {})
+  return events.reduce((uniqueEvents, event) => {
+    if (duplicateChecker[event.name]) {
+      // if already found event, just add new date
+      duplicateChecker[event.name].dates.push(event.dates.start.localDate);
+      return uniqueEvents;
+    } else {
+      // haven't seen this event, add to list
+      newEvent = {
+        // adapt data structure to my preference
+        name: event.name,
+        image: event.images[0].url,
+        venue: event._embedded.venues[0]?.name,
+        postalCode: event._embedded.venues[0].postalCode ?? "",
+        address: event._embedded.venues[0].address?.line1 ?? "",
+        city: event._embedded.venues[0].city.name,
+        venues: Object.keys(event._embedde?.venues[0] ?? {}).reduce(
+          (cumulator, current) => {
+            console.log("current aqui", current);
+            switch (current) {
+              case "city":
+              case "country":
+              case "state":
+                cumulator[current] = event._embedded.venues[0][current].name;
+                break;
             }
+            return cumulator;
+          },
+          {}
+        ),
+        location: {
+          longitude: event._embedded.venues[0]?.location.longitude ?? "",
+          latitude: event._embedded.venues[0]?.location.latitude ?? "",
+        },
+        classification: event.classifications[0].genre.name,
+        status: event.dates.status.code,
+        price: {
+          min: event.priceRanges ? `${event.priceRanges[0]?.min}€` : "",
+          max:
+            event.priceRanges &&
+            event.priceRanges[0]?.min !== event.priceRanges[0]?.max
+              ? `- ${event.priceRanges[0]?.max}€`
+              : "",
+        },
+        dates: [event.dates.start.localDate],
+        urlTicket: event.url,
+        externalLinks: Object.keys(
+          event._embedded?.attractions?.externalLinks ?? {}
+        ).reduce((cumulator, current) => {
+          switch (current) {
+            case "facebook":
+            case "instagram":
+            case "twitter":
+            case "homepage":
+              cumulator[current] =
+                event._embedded.attractions.externalLinks[current][0].url;
+              break;
+          }
 
-        };
+          return cumulator;
+        }, {}),
+      };
+    }
 
-        duplicateChecker[event.name] = newEvent; // mark event as found by name
+    duplicateChecker[event.name] = newEvent; // mark event as found by name
 
-        return [...uniqueEvents, newEvent];
-    }, []);
+    return [...uniqueEvents, newEvent];
+  }, []);
 }
 
 function renderResults(events = []) {

@@ -24,11 +24,11 @@ let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 $(document).ready(async function () {
   
   Modal.init();
-  
+  searchInLocation();
 
   // bind the event handler to the input box
   $("#location").change((event) => {
-    console.log("mudou", event.target.value);
+  
     let query = event.target.value;
     city = query;
 
@@ -39,7 +39,7 @@ $(document).ready(async function () {
    }
 
     if (!query) {
-      console.log("no query");
+   
       return;
     }
     $("#cards-container").html("");
@@ -50,10 +50,13 @@ $(document).ready(async function () {
 
 
 function searchInLocation(query, page = 0, date = defaultDate) {
-  console.log("searching...");
-  console.log(date);
 
-  eventsApiRequest({ city: query, page: page, startDateTime: date})
+  let params = { city: query, page: page, startDateTime: date};
+  if(!query){
+    params = { page: page, startDateTime: date};
+  }
+
+  eventsApiRequest(params)
     .then(parseResponse) // async deserialize response json
     .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)

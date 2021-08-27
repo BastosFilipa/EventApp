@@ -79,25 +79,27 @@ const Modal = (() => {
     const domModal = document.body.appendChild(myModalEl[0]);
     modal = bootstrap.Modal.getOrCreateInstance(domModal);
     Player.init("playerWrapper");
+    
   }
 
 
 
   async function setModal(event) {
+   
+     modal.show();
     let tracks;
-
     Player.reset();
-    try {
+    try { 
       tracks = await Spotify.getArtistTracks(event.name);
-      Player.addTracks(tracks);
-      
     } catch (error) {
-      
+      throw new Error("No artist tracks found")
+    }finally{
+      Player.addTracks(tracks);
     }
-    
+   
     
 
-    modal.show();
+   
     
   }
 

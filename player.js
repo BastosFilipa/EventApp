@@ -91,12 +91,21 @@ const Player = (() => {
   function removeTracks() {
     let tracks = document.querySelector(".tracks");
     tracks.innerHTML = "";
+    
 
   }
 
 
   function addTracks(tracks) {
+
+
     let tracksContainer = document.querySelector(".tracks");
+    if(!tracks){
+      tracksContainer.innerHTML = "No tracks";
+      return;
+    }
+
+    console.log(tracks);  
     for (let track of tracks) {
       let trackElement = document.createElement("div");
       trackElement.classList.add("track");
@@ -116,6 +125,7 @@ const Player = (() => {
         playMusic();
       });
     }
+    tracksContainer.scrollTo(0,0);
   }
 
   function setPlayerInfo(trackName, imageUrl) {
@@ -179,10 +189,10 @@ const Player = (() => {
   }
 
   function init(idElement) {
+  
     if(!idElement){
      throw new Error("You must provide an element to insert player");
     }
-
     document.querySelector("#"+idElement).innerHTML = template;
     setElements();
     addEventListeners();
@@ -197,6 +207,7 @@ const Player = (() => {
     removeClass(backward, "on");
     progressBar.style.width = 0;
     currentTime.innerHTML = "-:--";
+ 
   }
 
 

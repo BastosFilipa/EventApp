@@ -28,7 +28,7 @@ const Player = (() => {
 
                     </div>
                     <div class="progress" >
-                        <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"  aria-valuemin="0" aria-valuemax="100"></div>
+                        <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%"  aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                       <div class="tracks">
                         
@@ -51,7 +51,7 @@ const Player = (() => {
 
   function formatToSeconds(value) {
     if(isNaN(value)){
-      return "0:00";
+      return "-:--";
     }
     return (
       Math.floor(value / 60) +
@@ -101,7 +101,7 @@ const Player = (() => {
       let trackElement = document.createElement("div");
       trackElement.classList.add("track");
       trackElement.dataset.id = track.id;
-      trackElement.dataset.url = track.url;
+      trackElement.dataset.url = track.preview;
       trackElement.dataset.duration = track.duration;
       trackElement.innerHTML = `
       <div class="track-info">${track.id}</div>

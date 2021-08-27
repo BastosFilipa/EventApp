@@ -88,3 +88,10 @@ navbar {
   border-bottom: 3px solid transparent;
   border-top: 3px solid #79a70a;
 }
+
+.modal-grid{
+  display: grid;
+ grid-template-columns: repeat(2, 1fr);
+
+ align-items: center;
+}

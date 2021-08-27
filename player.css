@@ -6,7 +6,8 @@
  --light-black: #1e272c; 
  --dark-green: #1db954;
  --light-green: #1ed760;
- --gradient: linear-gradient(120DEG, #1DB954, #191414);
+
+ --gradient: linear-gradient(180deg, rgba(98,3,78,1) 0%, rgba(48,25,1,1) 100%);
  --white-color: #fff;
  --mild-color: #CCC;
  --light-salmon: #c59a89;
@@ -24,7 +25,6 @@
  justify-content: center;
  flex-direction: column;
 
- padding: 15px;
  height: inherit;
  width: 100%;
  background: var(--light-black);
@@ -43,7 +43,6 @@
 .player-title {
  width: 100%;
  height: auto;
- padding: 5px;
  display: flex;
  justify-content: space-between;
  flex-direction: row;
@@ -86,6 +85,9 @@ i.on {
     border-radius: 15px;
    }
 
+   .progress-bar {
+       background-color:var(--dark-green);
+   }
 .tracks {
     margin-top: 10px;
     height: 150px;
@@ -98,6 +100,7 @@ i.on {
     padding: 3px;
     grid-template-columns: 15px 40px auto 40px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .track i {
@@ -117,10 +120,12 @@ i.on {
      text-decoration: none;
     }
 
-.track:hover {
-    background-color: var(--dark-green);
+.track:hover, .track-playing {
+    background-image: var(--gradient);
 }
 
-.track-playing{
-    background-color: var(--dark-green);
+
+
+.track-info{
+    text-align: center;
 }

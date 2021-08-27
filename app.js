@@ -20,12 +20,9 @@ function eventsApiRequest(params = {}) {
 $(document).ready(async function () {
 
 
-    let topTracks  = await Spotify.getPlayer("Tom Zé");
-    topTracks.forEach(track => {
-        $('#info').append(track)
-    });
+    
 
-    Modal.openModal().show();
+    Modal.setModal().then(e => e.show());
     
 
     console.log('app starting');

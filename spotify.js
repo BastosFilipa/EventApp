@@ -1,4 +1,4 @@
-const Spotify = ( () => {
+const Spotify = (() => {
   const login = "3f7cadce4dee4c179497d08b1cdcbc9f";
   const password = "84def880b7f4444b8b8261385699e293";
   const url = "https://accounts.spotify.com/api/token";
@@ -19,7 +19,7 @@ const Spotify = ( () => {
     return token;
   }
 
- async function getArtist(name) {
+  async function getArtist(name) {
     if (!token) {
       token = await getToken();
     }
@@ -40,7 +40,6 @@ const Spotify = ( () => {
     //.then(res => res.json()).then(data => {console.log(data)}).catch(err => console.log(err));
   }
 
-
   async function getPlaylist(id) {
     if (!token) {
       token = await getToken();
@@ -59,17 +58,21 @@ const Spotify = ( () => {
     let playlist = await response.json();
     let tracks = Object.entries(playlist)[0][1];
     //console.log(tracks);
-    return tracks; 
+    return tracks;
   }
 
   async function getArtistTracks(name) {
-    let artist  = await getArtist(name);
-    let topTracks  = await getPlaylist(artist.id);
+    let artist = await getArtist(name);
+    if (!artist) {
+      throw new Error("Artist not found");
+    }
+    let topTracks = await getPlaylist(artist.id);
 
-    console.log(topTracks)
-    let player = topTracks.map((track, index) => {
+    let player = topTracks
+      .filter((track) => track.preview_url != null && track.preview_url)
+      .map((track, index) => {
         return {
-          id:index+1,
+          id: index + 1,
           name: track.name,
           artist: track.artists[0].name,
           album: track.album.name,
@@ -77,15 +80,13 @@ const Spotify = ( () => {
           preview: track.preview_url,
           duration: 30,
         };
-    })
+      });
 
-    return player;   
+    return player;
   }
 
-  
   return {
     getArtistTracks,
-    
   };
 })();
 

@@ -84,16 +84,19 @@ const Modal = (() => {
 
 
   async function setModal(event) {
-    
+    let tracks;
+
     Player.reset();
     try {
-      let tracks = await Spotify.getArtistTracks(event.name);
-     
-      Player.addTracks(tracks);
+      tracks = await Spotify.getArtistTracks(event.name);
+      
       
     } catch (error) {
       
     }
+    
+    Player.addTracks(tracks);
+    
     modal.show();
     
   }

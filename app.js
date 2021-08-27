@@ -17,7 +17,7 @@ function eventsApiRequest(params = {}) {
 
 let actualPage = 0;
 let city;
-let defaultDate = new Date().toISOString().replace(".000Z", "Z");
+let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 
 
 
@@ -34,7 +34,7 @@ $(document).ready(async function () {
 
    if(document.getElementById("calendar").value){
        let getDate = document.getElementById("calendar").value;
-       defaultDate = new Date(getDate).toISOString().replace(".000Z", "Z");
+       defaultDate = new Date(getDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
        console.log(defaultDate);
    }
 

@@ -19,27 +19,22 @@ let actualPage = 0;
 let city;
 let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 
-
-
 $(document).ready(async function () {
-  
   Modal.init();
   searchInLocation();
 
   // bind the event handler to the input box
   $("#location").change((event) => {
-  
     let query = event.target.value;
     city = query;
 
-   if(document.getElementById("calendar").value){
-       let getDate = document.getElementById("calendar").value;
-       defaultDate = new Date(getDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
-       console.log(defaultDate);
-   }
+    if (document.getElementById("calendar").value) {
+      let getDate = document.getElementById("calendar").value;
+      defaultDate = new Date(getDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
+      console.log(defaultDate);
+    }
 
     if (!query) {
-   
       return;
     }
     $("#cards-container").html("");
@@ -47,13 +42,10 @@ $(document).ready(async function () {
   });
 });
 
-
-
 function searchInLocation(query, page = 0, date = defaultDate) {
-
-  let params = { city: query, page: page, startDateTime: date};
-  if(!query){
-    params = { page: page, startDateTime: date};
+  let params = { city: query, page: page, startDateTime: date };
+  if (!query) {
+    params = { page: page, startDateTime: date };
   }
 
   eventsApiRequest(params)
@@ -161,18 +153,19 @@ function renderResults(events = []) {
   $("#cards-container").append(
     events.length > 0 ? renderEventsList(events) : renderNoResults()
   );
-
- 
 }
 
-function bindModal(){
-    document.querySelectorAll(".button-learnMore").forEach(card => {
-        card.addEventListener("click", () => {
-            let eventObj = JSON.parse(decodeURIComponent(card.dataset.event).replace('";', ''));
-            Modal.setModal(eventObj);
-        });
-    });
+function bindModal(results) {
+  document.querySelectorAll('.button-learnMore:not([data-binded="true"]').forEach((card) => {
+    card.setAttribute("data-binded", "true");
+      card.addEventListener("click", () => {
+        let eventObj = JSON.parse(
+          decodeURIComponent(card.dataset.event).replace('";', "")
+        );
+        Modal.setModal(eventObj);
+      });
     
+  });
 }
 
 function addObserver() {
@@ -194,7 +187,6 @@ function addObserver() {
       observer.unobserve(lastEvent);
 
       actualPage++;
-      console.log(actualPage);
       searchInLocation(city, actualPage, defaultDate);
     }
   };
@@ -206,7 +198,6 @@ function addObserver() {
 function renderEventsList(events) {
   return events.map((event) => renderEvent(event)).join("");
 }
-
 
 function renderEvent(event) {
   return `
@@ -227,13 +218,13 @@ function renderEvent(event) {
     event.price.max
   }</p></div>
             <div class="buttons-container">
-                <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
+                <button class="button-learnMore" data-event=${encodeURIComponent(
+                  JSON.stringify(event)
+                )} >Learn more</button>
                 <a class="share">Share this</a>
         </div>
     </div>`;
 }
-
-
 
 function renderNoResults() {
   return "<span>No results found</span>";

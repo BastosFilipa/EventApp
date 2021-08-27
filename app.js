@@ -76,7 +76,7 @@ function groupDuplicateEvents(events = []) { //for existing event.name dont crea
     let newEvent;
 
     return events.reduce((uniqueEvents, event) => {
-        if (duplicateChecker[event.name] && duplicateChecker[event.name].dates.length < 4) { // if already found event, just add new date
+        if (duplicateChecker[event.name]) { // if already found event, just add new date
             duplicateChecker[event.name].dates.push(event.dates.start.localDate);
             return uniqueEvents;
 

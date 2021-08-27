@@ -43,11 +43,6 @@ const Player = (() => {
     element.classList.add(className);
   }
 
-  function removeOnClass() {
-    for (let element of controls) {
-      removeClass(element, "on");
-    }
-  }
 
   function formatToSeconds(value) {
     if(isNaN(value)){
@@ -79,9 +74,7 @@ const Player = (() => {
   function backwardMusic() {
     if (player.src !== "") {
       player.currentTime = 0;
-      player.pause();
-      removeClass(play, "on");
-      addClass(pause, "on");
+      pauseMusic();  
     }
   }
 
@@ -94,6 +87,13 @@ const Player = (() => {
 
     currentTime.innerHTML = formatToSeconds(time);
   }
+
+  function removeTracks() {
+    let tracks = document.querySelector(".tracks");
+    tracks.innerHTML = "";
+
+  }
+
 
   function addTracks(tracks) {
     let tracksContainer = document.querySelector(".tracks");
@@ -112,7 +112,8 @@ const Player = (() => {
       `;
       tracksContainer.appendChild(trackElement);
       trackElement.addEventListener("click", () => {
-        playTrack(trackElement);
+        setTrackPlaying(trackElement);
+        playMusic();
       });
     }
   }
@@ -122,13 +123,17 @@ const Player = (() => {
     document.querySelector("#song-pic").src = imageUrl;
   }
 
-  function playTrack(trackElement) {
+  function resetTrackPlaying() {
     let currentPlaying = document.querySelector(".track-playing");
     if (currentPlaying) {
       currentPlaying.classList.remove("track-playing");
       currentPlaying.querySelector(".track-info").innerHTML =
         currentPlaying.dataset.id;
     }
+  }
+
+  function setTrackPlaying(trackElement) {
+    resetTrackPlaying();
     let trackUrl = trackElement.dataset.url;
     let trackImageUrl = trackElement.querySelector("img").src;
     let trackName = trackElement.querySelector(".track-name").innerHTML;
@@ -138,7 +143,7 @@ const Player = (() => {
 
     setPlayerInfo(trackName, trackImageUrl);
     player.src = trackUrl;
-    playMusic();
+    
   }
 
   function addEventListeners() {
@@ -173,16 +178,35 @@ const Player = (() => {
     progressBar = document.querySelector("#progressBar");
   }
 
-  function init() {
-    document.getElementById("playerWrapper").innerHTML = template;
+  function init(idElement) {
+    if(!idElement){
+     throw new Error("You must provide an element to insert player");
+    }
+
+    document.querySelector("#"+idElement).innerHTML = template;
     setElements();
     addEventListeners();
   }
 
+  function reset() {
+    player.src = "";
+    removeTracks();
+    setPlayerInfo("","data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
+    removeClass(play, "on");
+    removeClass(pause, "on");
+    removeClass(backward, "on");
+    progressBar.style.width = 0;
+    currentTime.innerHTML = "-:--";
+  }
+
+
   return {
     init,
     addTracks,
+    reset
   };
 })();
 
 export {Player};
+
+

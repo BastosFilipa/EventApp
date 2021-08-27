@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+
+:root {
+ --dark-black: #121212;
+ --light-black: #1e272c; 
+ --dark-green: #1db954;
+ --light-green: #1ed760;
+
+ --gradient: linear-gradient(180deg, rgba(98,3,78,1) 0%, rgba(48,25,1,1) 100%);
+ --white-color: #fff;
+ --mild-color: #CCC;
+ --light-salmon: #c59a89;
+ --medium-salmon: #e58e73;
+ --light-black-bs: 20px 20px 60px #1a2125, 
+             -20px -20px 60px #232d33;
+}
+
+
+
+
+
+.center-content {
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
+
+ height: inherit;
+ width: 100%;
+ background: var(--light-black);
+
+}
+
+#song-pic {
+ height: 60px;
+ width: 60px;
+}
+.controls-wrapper {
+ margin: 10px;
+
+
+}
+.player-title {
+ width: 100%;
+ height: auto;
+ display: flex;
+ justify-content: space-between;
+ flex-direction: row;
+
+}
+.player-title a {
+color: var(--white-color);
+ font-size: 0.8em;
+ text-decoration: none;
+}
+
+.controls {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+
+ align-items: center;
+}
+.controls i {
+ font-size: 20px;
+ margin: 5px;
+ color: var(--mild-color);
+ cursor: pointer;
+}
+.controls-center {
+ display: inline-block; 
+ justify-content: center;
+ align-items: center;
+ text-align: center;
+}
+
+i.on {
+    color: var(--dark-green);
+   }
+
+.progress {
+    margin: 0 auto;
+    margin-top: 25px;
+
+    height: 5px;
+    border-radius: 15px;
+   }
+
+   .progress-bar {
+       background-color:var(--dark-green);
+   }
+.tracks {
+    margin-top: 10px;
+    height: 150px;
+    overflow: scroll;
+}
+.track {
+    display: grid;
+    align-items:center;
+    grid-column-gap: 5px;
+    padding: 3px;
+    grid-template-columns: 15px 40px auto 40px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.track i {
+    font-size: 10px;
+    color: var(--mild-color);
+    cursor: pointer;
+   }
+
+.track img{
+    width:40px;
+    height:40px;
+}
+
+.track div {
+     color: var(--white-color);
+     font-size: 0.8em;
+     text-decoration: none;
+    }
+
+.track:hover, .track-playing {
+    background-image: var(--gradient);
+}
+
+
+
+.track-info{
+    text-align: center;
+}

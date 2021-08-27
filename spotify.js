@@ -62,24 +62,30 @@ const Spotify = ( () => {
     return tracks; 
   }
 
-  async function getPlayer(name) {
+  async function getArtistTracks(name) {
     let artist  = await getArtist(name);
     let topTracks  = await getPlaylist(artist.id);
 
-    let player = topTracks.map((track) => {
-        return track.preview_url?`
-        ${track.name}
-        <audio controls>
-        <source src="${track.preview_url}" type="audio/mpeg">
-      Your browser does not support the audio element.
-      </audio>`:"";
+    console.log(topTracks)
+    let player = topTracks.map((track, index) => {
+        return {
+          id:index+1,
+          name: track.name,
+          artist: track.artists[0].name,
+          album: track.album.name,
+          imageUrl: track.album.images[0].url,
+          preview: track.preview_url,
+          duration: 30,
+        };
     })
 
     return player;   
   }
 
+  
   return {
-    getPlayer
+    getArtistTracks,
+    
   };
 })();
 

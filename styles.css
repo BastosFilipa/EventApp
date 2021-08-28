@@ -256,5 +256,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: rgb(117, 115, 115);
   }
 
+  .share-btn-container{
+    background-color: white;
+    display: flex;
+    
+    padding: 16px;
+}
+
+.share-btn-container .fa-facebook{
+    color: #1877f2;
+}
 
 

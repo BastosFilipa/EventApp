@@ -53,6 +53,7 @@ function searchInLocation(query, page = 0, date = defaultDate) {
     .then(getEventsFromResponse) // extract useful info
     .then(groupDuplicateEvents)
     .then(renderResults)
+    .then(btnToshare)
     .then(bindModal)
     .then(addObserver)
     .catch(handleErrors);
@@ -224,9 +225,34 @@ function renderEvent(event) {
                   JSON.stringify(event)
                 )} >Learn more</button>
                 <a class="share">Share this</a>
+                <div class = "shareLink">
+                  <div class = "share-btn-container">
+                    <button href="#" class="facebook-btn">
+                      <i class = "fab fa-facebook"></i>
+                    </button>
+                    <form action = "${(event.urlTicket)}">
+                    <button type"submit" value="hey">Buy Tickets</button>
+                  </form>
+                  </div>
+                  
+                </div>
         </div>
     </div>`;
 }
+
+
+    
+// function btnToshare(event){
+//   const facebookBtn = document.querySelector(".facebook-btn");
+//   console.log('aqui');
+
+//     let postUrl = `${(event.urlTicket)}`;
+//     console.log(postUrl);
+//     facebookBtn.setAttribute("href", );
+//     console.log('oi');
+
+//     //`https://www.facebook.com/sharer.php?u=${postUrl}`
+// }
 
 function renderNoResults() {
   return "<span>No results found</span>";

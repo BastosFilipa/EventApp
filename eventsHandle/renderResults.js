@@ -23,9 +23,19 @@ const renderEvent = (event) => {
                 <div class="buttons-container">
                 <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
                 <a class="share">Share this</a>
+                
+                <a href="https://www.facebook.com/sharer.php?u=${event.urlTicket}" target="_blank" class="facebook-btn">
+                      <i class="fab fa-facebook"></i>
+                </a>
+                <a href="
+                https://pinterest.com/pin/create/bookmarklet/?media=[post-img]&url=${event.urlTicket}" target="_blank" class="pinterest-btn">
+                      <i class="fab fa-pinterest"></i>
+                </a>
+                <a href="https://twitter.com/share?url=${event.urlTicket}" target="_blank" class="twitter-btn">
+                      <i class="fab fa-twitter"></i>
+                </a>
             </div>
-        </div>
-    `;
+        </div>`;
 };
     
 const renderNoResults = () => {

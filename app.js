@@ -9,9 +9,22 @@ let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 
 $(document).ready(async function () {
   Modal.init();
+
+  
   searchInLocation();
 
   // bind the event handler to the input box
+
+
+  $("#calendar").change((event) => {
+    let queryDate = event.target.value;
+    //defaultDate = queryDate;
+    defaultDate = new Date(queryDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
+    $("#cards-container").html("");
+    searchInLocation(city, 0, defaultDate);
+
+  });
+
   $("#location").change((event) => {
     
     let query = event.target.value;
@@ -20,7 +33,6 @@ $(document).ready(async function () {
     if (document.getElementById("calendar").value) {
       let getDate = document.getElementById("calendar").value;
       defaultDate = new Date(getDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
-      console.log(defaultDate);
     }
 
     if (!query) {
@@ -52,8 +64,9 @@ function bindModal(results) {
     card.setAttribute("data-binded", "true");
       card.addEventListener("click", () => {
         let eventObj = JSON.parse(
-          decodeURIComponent(card.dataset.event).replace('";', "")
+          decodeURIComponent(card.dataset.event)
         );
+        console.log(eventObj);
         Modal.setModal(eventObj);
       });
     
@@ -62,11 +75,10 @@ function bindModal(results) {
 
 function addObserver() {
   let allEvents = document.querySelector("#cards-container");
-  let lastEvent = allEvents.lastChild;
-  console.log('last event',lastEvent);
-  
-  if (lastEvent?.tagName?.toLowerCase() == "span") {
-    console.log("sai");
+  let cards=allEvents.querySelectorAll("div.card");
+  let lastEvent = cards[cards.length - 1];
+
+  if (lastEvent.tagName.toLowerCase() == "span") {
     return;
   }
   const options = {
@@ -83,8 +95,6 @@ function addObserver() {
     }
   };
   const observer = new IntersectionObserver(callback, options);
-
-  console.log(lastEvent);
 
   observer.observe(lastEvent);
 }

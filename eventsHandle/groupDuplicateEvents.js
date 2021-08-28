@@ -24,8 +24,8 @@ const groupDuplicateEvents = (events = []) => {
           country: event._embedded.venues[0].country?.name,
           state: event._embedded.venues[0].state?.name,
           location: {
-            longitude: event._embedded.venues[0]?.location.longitude ?? "",
-            latitude: event._embedded.venues[0]?.location.latitude ?? "",
+            longitude: event._embedded.venues[0]?.location?.longitude ?? "",
+            latitude: event._embedded.venues[0]?.location?.latitude ?? "",
           },
           classification: event.classifications[0].genre.name && 
             event.classifications[0].genre.name  !== 'Undefined' ? event.classifications[0].genre.name : "-",
@@ -40,7 +40,7 @@ const groupDuplicateEvents = (events = []) => {
           },
           dates: [event.dates.start.localDate],
           urlTicket: event.url,
-          attractions: event._embedded?.attractions.map(({ id, name, externalLinks = {} }) => (
+          attractions: event._embedded?.attractions?.map(({ id, name, externalLinks = {} }) => (
             {
               id,
               name,

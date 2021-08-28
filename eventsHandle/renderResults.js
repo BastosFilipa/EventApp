@@ -24,8 +24,7 @@ const renderEvent = (event) => {
                 <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
                 <a class="share">Share this</a>
             </div>
-        </div>
-    `;
+        </div>`;
 };
     
 const renderNoResults = () => {

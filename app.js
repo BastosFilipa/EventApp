@@ -62,10 +62,10 @@ function bindModal(results) {
 
 function addObserver() {
   let allEvents = document.querySelector("#cards-container");
-  let lastEvent = allEvents.lastChild;
-  
+  let cards=allEvents.querySelectorAll("div.card");
+  let lastEvent = cards[cards.length - 1];
+
   if (lastEvent.tagName.toLowerCase() == "span") {
-    console.log("sai");
     return;
   }
   const options = {

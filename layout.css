@@ -59,8 +59,7 @@ navbar {
   -webkit-transform: rotate(45deg);
   width: 100px;
   display: block;
-  background: #79a70a;
-  background: linear-gradient(#9bc90d 0%, #79a70a 100%);
+
   box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
   position: absolute;
   top: 19px;
@@ -72,10 +71,9 @@ navbar {
   left: 0px;
   top: 100%;
   z-index: -1;
-  border-left: 3px solid #79a70a;
   border-right: 3px solid transparent;
   border-bottom: 3px solid transparent;
-  border-top: 3px solid #79a70a;
+
 }
 .ribbon span::after {
   content: "";
@@ -84,10 +82,41 @@ navbar {
   top: 100%;
   z-index: -1;
   border-left: 3px solid transparent;
-  border-right: 3px solid #79a70a;
+
   border-bottom: 3px solid transparent;
+
+}
+
+
+.ribbon span.ribbon-green {
+  background: #79a70a;
+  background: linear-gradient(#9bc90d 0%, #79a70a 100%);
+ 
+}
+.ribbon span.ribbon-green::before {
+  border-left: 3px solid #79a70a;
   border-top: 3px solid #79a70a;
 }
+.ribbon span.ribbon-green::after {
+  border-right: 3px solid #79a70a;
+  border-top: 3px solid #79a70a;
+}
+
+.ribbon span.ribbon-red {
+  background: #a72f0a;
+  background: linear-gradient(#862609 0%, #a72f0a 100%);
+ 
+}
+.ribbon span.ribbon-red::before {
+  border-left: 3px solid #a72f0a;
+  border-top: 3px solid #a72f0a;
+}
+.ribbon span.ribbon-red::after {
+  border-right: 3px solid #a72f0a;
+  border-top: 3px solid #a72f0a;
+}
+
+
 
 .modal-grid{
   display: grid;

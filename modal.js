@@ -18,7 +18,7 @@ const Modal = (() => {
               <div class="clearfix">
                 <div class="box col-md-6 float-md-end mb-3 ms-md-3">
                   <div class="ribbon">
-                    <span>
+                    <span id="ribbon-title">
                       On Sale
                     </span>
   
@@ -84,9 +84,19 @@ const Modal = (() => {
 
 
 
+
   async function setModal(event) {
+    console.log(event);
     document.querySelector(".modal-title").innerText = event.name;
     document.querySelector(".modal-image").src = event.image;
+    document.querySelector(".modal-image").alt = event.name;
+    document.querySelector(".modal-image").title = event.name;
+    document.querySelector("#ribbon-title").innerText = event.status;
+    document.querySelector("#ribbon-title").classList.add("ribbon-red");
+    if (event.status === "onsale") {
+      document.querySelector("#ribbon-title").classList.replace("ribbon-red", "ribbon-green");
+    }
+
 
 
 

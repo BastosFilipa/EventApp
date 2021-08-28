@@ -83,8 +83,6 @@ function addObserver() {
   };
   const observer = new IntersectionObserver(callback, options);
 
-  console.log(lastEvent);
-
   observer.observe(lastEvent);
 }
 

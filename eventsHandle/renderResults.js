@@ -22,7 +22,7 @@ const renderEvent = (event) => {
                 </div>
                 <div class="buttons-container">
                 <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
-                <a class="share">Share this</a>
+                <a class="share"></a>
                 
                 <a href="https://www.facebook.com/sharer.php?u=${event.urlTicket}" target="_blank" class="facebook-btn">
                       <i class="fab fa-facebook"></i>

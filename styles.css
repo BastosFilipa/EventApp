@@ -108,15 +108,10 @@
 }
 
 a {
-  color: rgba(245, 121, 59, 1);
-  text-decoration: none;
   font-size: 12px;
   cursor: pointer;
 }
 
-a:hover { 
-  color: rgb(255,255,255);
-}
 
 @media only screen and (max-width: 992px) {
   #cards-container {

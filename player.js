@@ -100,12 +100,10 @@ const Player = (() => {
 
 
     let tracksContainer = document.querySelector(".tracks");
-    if(!tracks){
+    if(!tracks || tracks.length === 0){
       tracksContainer.innerHTML = "No tracks";
       return;
     }
-
-    console.log(tracks);  
     for (let track of tracks) {
       let trackElement = document.createElement("div");
       trackElement.classList.add("track");

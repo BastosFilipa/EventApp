@@ -3,6 +3,7 @@ const Spotify = (() => {
   const password = "84def880b7f4444b8b8261385699e293";
   const url = "https://accounts.spotify.com/api/token";
   let token;
+  let tries = 0;
 
   async function getToken() {
     let response = await fetch(url, {
@@ -18,6 +19,32 @@ const Spotify = (() => {
     let token = await response.json();
     return token;
   }
+
+  function correctName(name) {
+    if (tries == 0) {
+      if (name.indexOf("-") > -1) {
+        name = name.split("-")[0];
+      }
+
+      if (name.indexOf(":") > -1) {
+        name = name.split(":")[0];
+      }
+      if (name.indexOf('"') > -1) {
+        name = name.split('"')[0];
+      }
+    }
+    if(tries == 1){
+     name = name.split(" ").slice(0,3).join(" ");
+    }
+    if(tries == 2){
+      tries = 0;
+      throw new Error("Artist not found");
+    }
+
+    tries++;
+    return name;
+  }
+
 
   async function getArtist(name) {
     if (!token) {
@@ -35,9 +62,13 @@ const Spotify = (() => {
     );
 
     let artist = await response.json();
-    //console.log(artist);
+   
+
+    if (!artist.artists.items[0]) {     
+      name = correctName(name);
+      return getArtist(name);
+    }
     return artist["artists"]["items"][0];
-    //.then(res => res.json()).then(data => {console.log(data)}).catch(err => console.log(err));
   }
 
   async function getPlaylist(id) {
@@ -57,15 +88,19 @@ const Spotify = (() => {
 
     let playlist = await response.json();
     let tracks = Object.entries(playlist)[0][1];
-    //console.log(tracks);
+   
     return tracks;
   }
 
+
   async function getArtistTracks(name) {
-    let artist = await getArtist(name);
-    if (!artist) {
-      throw new Error("Artist not found");
+    let artist;
+    try{
+      artist = await getArtist(name);
+    } catch(err){ 
+      return [];
     }
+   
     let topTracks = await getPlaylist(artist.id);
 
     let player = topTracks

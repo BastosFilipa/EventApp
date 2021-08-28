@@ -14,6 +14,17 @@ $(document).ready(async function () {
   searchInLocation();
 
   // bind the event handler to the input box
+
+
+  $("#calendar").change((event) => {
+    let queryDate = event.target.value;
+    //defaultDate = queryDate;
+    defaultDate = new Date(queryDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
+    $("#cards-container").html("");
+    searchInLocation(city, 0, defaultDate);
+
+  });
+
   $("#location").change((event) => {
     
     let query = event.target.value;
@@ -22,7 +33,6 @@ $(document).ready(async function () {
     if (document.getElementById("calendar").value) {
       let getDate = document.getElementById("calendar").value;
       defaultDate = new Date(getDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
-      console.log(defaultDate);
     }
 
     if (!query) {

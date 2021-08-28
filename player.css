@@ -60,7 +60,7 @@ color: var(--white-color);
  align-items: center;
 }
 .controls i {
- font-size: 20px;
+ font-size: 19px;
  margin: 5px;
  color: var(--mild-color);
  cursor: pointer;
@@ -89,9 +89,12 @@ i.on {
    }
 .tracks {
     margin-top: 10px;
-    height: 150px;
     overflow: scroll;
     overflow-x: hidden;
+}
+
+.tracks-full {
+    height: 150px;  
 }
 
 .tracks::-webkit-scrollbar {

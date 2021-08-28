@@ -43,9 +43,8 @@ const Player = (() => {
     element.classList.add(className);
   }
 
-
   function formatToSeconds(value) {
-    if(isNaN(value)){
+    if (isNaN(value)) {
       return "-:--";
     }
     return (
@@ -74,7 +73,7 @@ const Player = (() => {
   function backwardMusic() {
     if (player.src !== "") {
       player.currentTime = 0;
-      pauseMusic();  
+      pauseMusic();
     }
   }
 
@@ -84,24 +83,19 @@ const Player = (() => {
   }
 
   function updateCurrentTime(time) {
-
     currentTime.innerHTML = formatToSeconds(time);
   }
 
   function removeTracks() {
     let tracks = document.querySelector(".tracks");
     tracks.innerHTML = "";
-    
-
   }
 
-
   function addTracks(tracks) {
-
-
     let tracksContainer = document.querySelector(".tracks");
-    if(!tracks || tracks.length === 0){
+    if (!tracks || tracks.length === 0) {
       tracksContainer.innerHTML = "No tracks";
+      tracksContainer.classList.remove("tracks-full");
       return;
     }
     for (let track of tracks) {
@@ -123,7 +117,8 @@ const Player = (() => {
         playMusic();
       });
     }
-    tracksContainer.scrollTo(0,0);
+    tracksContainer.classList.add("tracks-full");
+    tracksContainer.scrollTo(0, 0);
   }
 
   function setPlayerInfo(trackName, imageUrl) {
@@ -151,7 +146,6 @@ const Player = (() => {
 
     setPlayerInfo(trackName, trackImageUrl);
     player.src = trackUrl;
-    
   }
 
   function addEventListeners() {
@@ -187,11 +181,10 @@ const Player = (() => {
   }
 
   function init(idElement) {
-  
-    if(!idElement){
-     throw new Error("You must provide an element to insert player");
+    if (!idElement) {
+      throw new Error("You must provide an element to insert player");
     }
-    document.querySelector("#"+idElement).innerHTML = template;
+    document.querySelector("#" + idElement).innerHTML = template;
     setElements();
     addEventListeners();
   }
@@ -199,23 +192,22 @@ const Player = (() => {
   function reset() {
     player.src = "";
     removeTracks();
-    setPlayerInfo("","data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=");
+    setPlayerInfo(
+      "",
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+    );
     removeClass(play, "on");
     removeClass(pause, "on");
     removeClass(backward, "on");
     progressBar.style.width = 0;
     currentTime.innerHTML = "-:--";
- 
   }
-
 
   return {
     init,
     addTracks,
-    reset
+    reset,
   };
 })();
 
-export {Player};
-
-
+export { Player };

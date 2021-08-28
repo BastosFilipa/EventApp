@@ -231,5 +231,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: rgb(117, 115, 115);
   }
 
+  .share-btn-container{
+    background-color: white;
+    display: flex;
+    
+    padding: 16px;
+}
+
+.buttons-container .fa-facebook{
+    color: #1877f2;
+}
+
+.buttons-container .fa-twitter{
+  color: #1da1f2;
+}
+
+.buttons-container .fa-pinterest{
+  color: #e60023;
+}
 
 

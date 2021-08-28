@@ -18,10 +18,23 @@ function eventsApiRequest(params = {}) {
 let actualPage = 0;
 let city;
 let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
+let date;
 
 $(document).ready(async function () {
   Modal.init();
+
   searchInLocation();
+  
+
+  $("#calendar").change((event) => {
+    let queryDate = event.target.value;
+    //defaultDate = queryDate;
+    defaultDate = new Date(queryDate).toISOString().replace(/\.\d\d\dZ/g, "Z");
+    console.log(defaultDate);
+    $("#cards-container").html("");
+    searchInLocation(defaultDate);
+
+  });
 
   // bind the event handler to the input box
   $("#location").change((event) => {

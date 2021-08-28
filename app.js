@@ -1,7 +1,7 @@
 import { Modal } from "./modal.js";
 import { eventsApiRequest, parseResponse, getEventsFromResponse } from "./utils/fetchApiRequest.js";
 import { groupDuplicateEvents } from "./eventsHandle/groupDuplicateEvents.js";
-import { renderResults } from "./eventsHandle/renderResults.js";
+import { renderResults, addObserver } from "./eventsHandle/renderResults.js";
 
 let actualPage = 0;
 let city;
@@ -73,7 +73,7 @@ function bindModal(results) {
   });
 }
 
-function addObserver() {
+/* function addObserver() {
   let allEvents = document.querySelector("#cards-container");
   let cards=allEvents.querySelectorAll("div.card");
   let lastEvent = cards[cards.length - 1];
@@ -97,7 +97,7 @@ function addObserver() {
   const observer = new IntersectionObserver(callback, options);
 
   observer.observe(lastEvent);
-}
+} */
 
 function handleErrors(err) {
   console.error(err);

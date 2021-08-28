@@ -110,8 +110,8 @@ function groupDuplicateEvents(events = []) {
           {}
         ),
         location: {
-          longitude: event._embedded.venues[0]?.location.longitude ?? "",
-          latitude: event._embedded.venues[0]?.location.latitude ?? "",
+          longitude: event._embedded.venues[0]?.location?.longitude ?? "",
+          latitude: event._embedded.venues[0]?.location?.latitude ?? "",
         },
         classification: event.classifications[0].genre.name,
         status: event.dates.status.code,

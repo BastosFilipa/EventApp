@@ -124,3 +124,11 @@ navbar {
 
  align-items: center;
 }
+
+#modal-dates{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  font: 10px sans-serif;
+  align-items: center;
+}

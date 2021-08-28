@@ -34,12 +34,14 @@ const Modal = (() => {
                 
              
                 <div>
-                <p>
-                A paragraph of placeholder text. We're using it here to show
-                the use of the clearfix class. We're adding quite a few
-                meaningless phrases here to demonstrate how the columns
-                interact here with the floated image.
-              </p>
+                <i class="fa fa-calendar" aria-hidden="true"></i> Event Dates:
+                <div id="modal-dates">
+                  
+                    
+                    <span id="date-start-text">
+                    
+                    </span>
+              </div>
 
               <p>
                 As you can see the paragraphs gracefully wrap around the
@@ -79,11 +81,7 @@ const Modal = (() => {
     const domModal = document.body.appendChild(myModalEl[0]);
     modal = bootstrap.Modal.getOrCreateInstance(domModal);
     Player.init("playerWrapper");
-    
   }
-
-
-
 
   async function setModal(event) {
     console.log(event);
@@ -94,28 +92,31 @@ const Modal = (() => {
     document.querySelector("#ribbon-title").innerText = event.status;
     document.querySelector("#ribbon-title").classList.add("ribbon-red");
     if (event.status === "onsale") {
-      document.querySelector("#ribbon-title").classList.replace("ribbon-red", "ribbon-green");
+      document
+        .querySelector("#ribbon-title")
+        .classList.replace("ribbon-red", "ribbon-green");
     }
+    const dateDiv = document.querySelector("#modal-dates");
+    dateDiv.innerHTML = "";
+    const dates= event.dates.map(date => new Date(date));
+    const sortedDates = dates.sort((a, b) => a - b);
 
+    sortedDates.forEach((date) => {
+      const dateStartText = document.createElement("span");
+      dateStartText.classList.add("date-start-text");
+      dateStartText.innerText = date.toString().substring(0, 15);
+      dateDiv.appendChild(dateStartText);
 
-
+      
+    })
 
     modal.show();
-    let tracks;
-    Player.reset();
-    try { 
-      tracks = await Spotify.getArtistTracks(event.name);
-    } catch (error) {
-      throw new Error("No artist tracks found")
-    }finally{
-      Player.addTracks(tracks);
-    }
-   
-    
-    
 
-   
-    
+    Player.reset();
+
+    let tracks = await Spotify.getArtistTracks(event.name);
+
+    Player.addTracks(tracks);
   }
 
   return {

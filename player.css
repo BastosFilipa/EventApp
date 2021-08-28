@@ -12,8 +12,7 @@
  --mild-color: #CCC;
  --light-salmon: #c59a89;
  --medium-salmon: #e58e73;
- --light-black-bs: 20px 20px 60px #1a2125, 
-             -20px -20px 60px #232d33;
+ --orange: #F5793B;
 }
 
 
@@ -92,7 +91,30 @@ i.on {
     margin-top: 10px;
     height: 150px;
     overflow: scroll;
+    overflow-x: hidden;
 }
+
+.tracks::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  /* Track */
+  .tracks::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+   
+  /* Handle */
+  .tracks::-webkit-scrollbar-thumb {
+    background: #000; 
+    border-radius: 10px;
+  }
+  }
+  
+  /* Handle on hover */
+  .tracks ::-webkit-scrollbar-thumb:hover {
+    background: var(--orange);; 
+  }
+
 .track {
     display: grid;
     align-items:center;

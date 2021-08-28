@@ -63,8 +63,9 @@ function bindModal(results) {
 function addObserver() {
   let allEvents = document.querySelector("#cards-container");
   let lastEvent = allEvents.lastChild;
+  console.log('last event',lastEvent);
   
-  if (lastEvent.tagName.toLowerCase() == "span") {
+  if (lastEvent?.tagName?.toLowerCase() == "span") {
     console.log("sai");
     return;
   }
@@ -76,7 +77,7 @@ function addObserver() {
     if (el[0].intersectionRatio > 0) {
       //console.log(el);
       observer.unobserve(lastEvent);
-
+      
       actualPage++;
       searchInLocation(city, actualPage, defaultDate);
     }

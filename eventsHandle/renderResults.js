@@ -48,30 +48,4 @@ const renderResults = (events = []) => {
     );
 }
 
-const addObserver = () => {
-    let allEvents = document.querySelector("#cards-container");
-    let cards=allEvents.querySelectorAll("div.card");
-    let lastEvent = cards[cards.length - 1];
-  
-    if (lastEvent.tagName.toLowerCase() == "span") {
-      return;
-    }
-    const options = {
-      rootMargin: "0px",
-      threshold: 0.3,
-    };
-    const callback = (el, ol) => {
-      if (el[0].intersectionRatio > 0) {
-        //console.log(el);
-        observer.unobserve(lastEvent);
-        
-        actualPage++;
-        searchInLocation(city, actualPage, defaultDate);
-      }
-    };
-    const observer = new IntersectionObserver(callback, options);
-  
-    observer.observe(lastEvent);
-  }
-
-export { renderResults, addObserver };
+export { renderResults };

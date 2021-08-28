@@ -1,7 +1,7 @@
 import { Modal } from "./modal.js";
 import { eventsApiRequest, parseResponse, getEventsFromResponse } from "./utils/fetchApiRequest.js";
 import { groupDuplicateEvents } from "./eventsHandle/groupDuplicateEvents.js";
-import { renderResults, addObserver } from "./eventsHandle/renderResults.js";
+import { renderResults } from "./eventsHandle/renderResults.js";
 
 let actualPage = 0;
 let city;
@@ -9,12 +9,9 @@ let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 
 $(document).ready(async function () {
   Modal.init();
-
-  
   searchInLocation();
 
   // bind the event handler to the input box
-
 
   $("#calendar").change((event) => {
     let queryDate = event.target.value;
@@ -73,7 +70,7 @@ function bindModal(results) {
   });
 }
 
-/* function addObserver() {
+function addObserver() {
   let allEvents = document.querySelector("#cards-container");
   let cards=allEvents.querySelectorAll("div.card");
   let lastEvent = cards[cards.length - 1];
@@ -97,7 +94,7 @@ function bindModal(results) {
   const observer = new IntersectionObserver(callback, options);
 
   observer.observe(lastEvent);
-} */
+}
 
 function handleErrors(err) {
   console.error(err);

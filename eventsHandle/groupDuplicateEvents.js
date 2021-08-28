@@ -17,7 +17,7 @@ const groupDuplicateEvents = (events = []) => {
           image: event.images.filter((image) => {
             return  image.ratio == "16_9" && image.width >= 300;
            })[0].url, //event.images[1].url,
-          venue: event._embedded.venues[0]?.name,
+          venue: event._embedded.venues[0]?.name ?? "-",
           postalCode: event._embedded.venues[0].postalCode ?? "",
           address: event._embedded.venues[0].address?.line1 ?? "",
           city: event._embedded.venues[0].city?.name,

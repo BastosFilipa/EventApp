@@ -9,6 +9,8 @@ let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 
 $(document).ready(async function () {
   Modal.init();
+
+  
   searchInLocation();
 
   // bind the event handler to the input box
@@ -52,8 +54,9 @@ function bindModal(results) {
     card.setAttribute("data-binded", "true");
       card.addEventListener("click", () => {
         let eventObj = JSON.parse(
-          decodeURIComponent(card.dataset.event).replace('";', "")
+          decodeURIComponent(card.dataset.event)
         );
+        console.log(eventObj);
         Modal.setModal(eventObj);
       });
     

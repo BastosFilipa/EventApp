@@ -24,7 +24,7 @@ $(document).ready(async function () {
   Modal.init();
 
   searchInLocation();
-  
+  //hello
 
   $("#calendar").change((event) => {
     let queryDate = event.target.value;

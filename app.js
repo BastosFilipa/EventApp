@@ -227,12 +227,15 @@ function renderEvent(event) {
                 <a class="share">Share this</a>
                 <div class = "shareLink">
                   <div class = "share-btn-container">
-                    <button href="#" class="facebook-btn">
-                      <i class = "fab fa-facebook"></i>
-                    </button>
+                  
+                    <a href="" target="_blank" class="facebook-btn">
+                      <i class="fab fa-facebook"></i>
+                    </a>
+
                     <form action = "${(event.urlTicket)}">
                     <button type"submit" value="hey">Buy Tickets</button>
-                  </form>
+                    </form>
+
                   </div>
                   
                 </div>
@@ -242,17 +245,22 @@ function renderEvent(event) {
 
 
     
-// function btnToshare(event){
-//   const facebookBtn = document.querySelector(".facebook-btn");
-//   console.log('aqui');
+function btnToshare(event){
+  const facebookBtn = document.querySelectorAll(".facebook-btn");
+  
 
-//     let postUrl = `${(event.urlTicket)}`;
-//     console.log(postUrl);
-//     facebookBtn.setAttribute("href", );
-//     console.log('oi');
+    //let postUrl = `${(event.urlTicket)}`;
+    //console.log(postUrl);
+    let test = encodeURI("www.google.pt");
+    
+    for(let facebook of facebookBtn){
+      console.log(facebook);
+      facebook.setAttribute("href", `https://www.facebook.com/sharer.php?u=${test}`);
+    }
+    console.log('oi');
 
-//     //`https://www.facebook.com/sharer.php?u=${postUrl}`
-// }
+    
+}
 
 function renderNoResults() {
   return "<span>No results found</span>";

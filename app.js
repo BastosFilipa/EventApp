@@ -2,7 +2,7 @@ import { Modal } from "./modal.js";
 
 function eventsApiRequest(params = {}) {
   const apikey = "7elxdku9GGG5k8j0Xm8KWdANDgecHMV0";
-  let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${apikey}`;
+  let url = `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=${apikey}`;
 
   let uriParams = Object.keys(params).reduce((cumulative, key) => {
     return cumulative + `&${key}=${encodeURIComponent(params[key])}`;
@@ -25,6 +25,7 @@ $(document).ready(async function () {
 
   // bind the event handler to the input box
   $("#location").change((event) => {
+    
     let query = event.target.value;
     city = query;
 
@@ -64,7 +65,7 @@ function parseResponse(response) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  return response.json(); //data
+  return response.json(); 
 }
 
 function getEventsFromResponse(data) {
@@ -74,11 +75,10 @@ function getEventsFromResponse(data) {
 }
 
 function groupDuplicateEvents(events = []) {
-  //for existing event.name dont create a new card, just add the event date to the card with the same name.
   const duplicateChecker = {};
   let newEvent;
-
   return events.reduce((uniqueEvents, event) => {
+    // for existing event.name dont create a new card, just add the event date to the card with the same name.
     if (duplicateChecker[event.name]) {
       // if already found event, just add new date
       duplicateChecker[event.name].dates.push(event.dates.start.localDate);
@@ -116,7 +116,7 @@ function groupDuplicateEvents(events = []) {
         classification: event.classifications[0].genre.name,
         status: event.dates.status.code,
         price: {
-          min: event.priceRanges ? `${event.priceRanges[0]?.min}€` : "",
+          min: event.priceRanges ? `| ${event.priceRanges[0]?.min}€` : "",
           max:
             event.priceRanges &&
             event.priceRanges[0]?.min !== event.priceRanges[0]?.max
@@ -204,26 +204,22 @@ function renderEventsList(events) {
 function renderEvent(event) {
   return `
     <div class="card">
-        <img class="card-image" alt='${event.name} image' src='${
-    event.image
-  }' />
+        <div class="card-image">
+          <img alt='${event.name} image' src='${event.image}' />
+        </div>
         <div class="card-text">
             <h5>${event.name}</h5>
             <div class="card-genre-details">
-                <p>${event.venue}</p>
-                <p>Genre: ${
-                  event.classification
-                }<br><p class="card-date">${event.dates.join(" | ")}</p></p>
+                <p class="card-venue">${event.venue}</p>
+                <p class="card-classification">${event.classification}<br>
+                  <p class="card-date">${event.dates.join(" ")}</p>
+                </p>
             </div>
-            <p class="card-status">${event.status}</p>
-            <p class="card-price">${event.price.min} ${
-    event.price.max
-  }</p></div>
-            <div class="buttons-container">
-                <button class="button-learnMore" data-event=${encodeURIComponent(
-                  JSON.stringify(event)
-                )} >Learn more</button>
-                <a class="share">Share this</a>
+            <div class="card-status-details">${event.status} ${event.price.min} ${event.price.max}</div>
+          </div>
+          <div class="buttons-container">
+            <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
+            <a class="share">Share this</a>
         </div>
     </div>`;
 }
@@ -235,7 +231,3 @@ function renderNoResults() {
 function handleErrors(err) {
   console.error(err);
 }
-
-/* <p>${event.externalLinks.facebook}</p>
-<p>${event.venues.city}</p>
-<p>${event.venues.country}</p> */

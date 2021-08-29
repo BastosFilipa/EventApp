@@ -1,15 +1,15 @@
 const renderEventsList = (events) => {
-    return events.map((event) => renderEvent(event)).join("");
+  return events.map((event) => renderEvent(event)).join("");
 };
 
 function htmlToElements(html) {
-    const template = document.createElement("template");
-    template.innerHTML = html;
-    return template.content.childNodes;
-  }
+  const template = document.createElement("template");
+  template.innerHTML = html;
+  return template.content.childNodes;
+}
 
 const renderEvent = (event) => {
-    return `
+  return `
         <div class="card">
             <div class="card-image">
                 <img alt='${event.name} image' src='${event.image}' />
@@ -24,37 +24,44 @@ const renderEvent = (event) => {
                         </div>
                     </p>
                 </div>
-                <div class="card-status-details">${event.status} ${event.price.min} ${event.price.max}</div>
+                <div class="card-status-details">${event.status} ${
+    event.price.min
+  } ${event.price.max}</div>
                 </div>
                 <div class="buttons-container">
-                <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
-                <a class="share"></a>
+                <button class="button-learnMore" data-event=${encodeURIComponent(
+                  JSON.stringify(event)
+                )} >Learn more</button>
+                <div class="share">
                 
-                <a href="https://www.facebook.com/sharer.php?u=${event.urlTicket}" target="_blank" class="facebook-btn">
+                <a href="https://www.facebook.com/sharer.php?u=${
+                  event.urlTicket
+                }" target="_blank" class="facebook-btn">
                       <i class="fab fa-facebook"></i>
                 </a>
-                <a href="
-                https://pinterest.com/pin/create/bookmarklet/?media=[post-img]&url=${event.urlTicket}" target="_blank" class="pinterest-btn">
+                <a href="https://pinterest.com/pin/create/bookmarklet/?media=[post-img]&url=${
+                  event.urlTicket
+                }" target="_blank" class="pinterest-btn">
                       <i class="fab fa-pinterest"></i>
                 </a>
-                <a href="https://twitter.com/share?url=${event.urlTicket}" target="_blank" class="twitter-btn">
+                <a href="https://twitter.com/share?url=${
+                  event.urlTicket
+                }" target="_blank" class="twitter-btn">
                       <i class="fab fa-twitter"></i>
                 </a>
+                </div>
             </div>
         </div>`;
 };
-    
+
 const renderNoResults = () => {
-    return "<span>No results found</span>";
+  return "<span>No results found</span>";
 };
 
 const renderResults = (events = []) => {
-   let html = events.length ? renderEventsList(events) : renderNoResults();
+  let html = events.length ? renderEventsList(events) : renderNoResults();
 
-    document.querySelector("#cards-container").
-    append(...htmlToElements(html) );
-}
-  
-
+  document.querySelector("#cards-container").append(...htmlToElements(html));
+};
 
 export { renderResults };

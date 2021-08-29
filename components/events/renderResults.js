@@ -34,7 +34,7 @@ const renderEvent = (event) => {
                       <i class="fab fa-facebook"></i>
                 </a>
                 <a href="
-                https://pinterest.com/pin/create/bookmarklet/?media=[post-img]&url=${event.urlTicket}" target="_blank" class="pinterest-btn">
+                https://pinterest.com/pin/create/bookmarklet/?url=${event.urlTicket}" target="_blank" class="pinterest-btn">
                       <i class="fab fa-pinterest"></i>
                 </a>
                 <a href="https://twitter.com/share?url=${event.urlTicket}" target="_blank" class="twitter-btn">

@@ -2,11 +2,18 @@ const groupDuplicateEvents = (events = []) => {
     const duplicateChecker = {};
     let newEvent;
   
+    function orderDates(dates){
+      return dates.sort((a, b) => {
+        return new Date(a) - new Date(b);
+      });
+
+    }
     return events.reduce((uniqueEvents, event) => {
       // for existing event.name dont create a new card, just add the event date to the card with the same name.
       if (duplicateChecker[event.name]) {
         // if already found event, just add new date
         duplicateChecker[event.name].dates.push(event.dates.start.localDate);
+        duplicateChecker[event.name].dates = orderDates(duplicateChecker[event.name].dates);
         return uniqueEvents;
   
       } else {
@@ -38,7 +45,7 @@ const groupDuplicateEvents = (events = []) => {
                 ? `- ${event.priceRanges[0]?.max}€`
                 : "",
           },
-          dates: [event.dates.start.localDate],
+          dates: orderDates([event.dates.start.localDate]),
           urlTicket: event.url,
           attractions: event._embedded?.attractions?.map(({ id, name, externalLinks = {} }) => (
             {

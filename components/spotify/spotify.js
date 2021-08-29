@@ -62,7 +62,6 @@ const Spotify = (() => {
     );
 
     let artist = await response.json();
-   
 
     if (!artist.artists.items[0]) {     
       name = correctName(name);

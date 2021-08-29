@@ -1,10 +1,9 @@
 import { Spotify } from "../spotify/spotify.js";
 import { Player } from "../player/player.js";
+import { Map } from "./map.js";
 
 const Modal = (() => {
   let modal;
-  let apikey = "AIzaSyCzp7p_uX5EJ92S9fnQFG3Con5TcewcWjE";
-  let loader;
 
   function htmlToElements(html) {
     const template = document.createElement("template");
@@ -61,7 +60,7 @@ const Modal = (() => {
                   </div>
                  
                   <div class="modal-info-content">
-                    <div  class="modal-info-title" ><i class="fas fa-map-marker-alt"></i> Venue: <a href="" id="modal-directions" target="_blank"></a></div>
+                    <div  class="modal-info-title" ><i class="fas fa-map-marker-alt"></i> Venue: <a href="" id="modal-directions" target="_blank">Get directions</a></div>
                     <div class="modal-info-text">
                     <span id="modal-venue"></span>
                     </div>
@@ -92,19 +91,9 @@ const Modal = (() => {
     const domModal = document.body.appendChild(myModalEl[0]);
     modal = bootstrap.Modal.getOrCreateInstance(domModal);
     Player.init("playerWrapper");
-
+    Map.initMap();
     domModal.addEventListener("hidden.bs.modal", function (event) {
       Player.reset();
-    });
-
-    initMap();
-  }
-
-  function initMap() {
-    loader = new google.maps.plugins.loader.Loader({
-      apiKey: apikey,
-      version: "weekly",
-      libraries: ["places"],
     });
   }
 
@@ -113,30 +102,16 @@ const Modal = (() => {
       document.querySelector("#map").innerHTML = "No location found";
       return;
     }
+    document.querySelector(
+      "#modal-directions"
+    ).href = `https://www.google.com/maps/dir//${venue}/@${latLang.lat},${latLang.lng},12z/`;
+
     const mapOptions = {
       center: latLang,
       zoom: 15,
     };
-    loader.loadCallback((e) => {
-      if (e) {
-        console.log(e);
-      } else {
-        document.querySelector("#modal-directions").innerText =
-          "Get directions";
-        document.querySelector(
-          "#modal-directions"
-        ).href = `https://www.google.com/maps/dir//${venue}/@${latLang.lat},${latLang.lng},12z/`;
 
-        const map = new google.maps.Map(
-          document.querySelector("#map"),
-          mapOptions
-        );
-        const marker = new google.maps.Marker({
-          position: latLang,
-          map: map,
-        });
-      }
-    });
+    const modalMap = Map.loadMap(document.querySelector("#map"), mapOptions);
   }
 
   function resetModal() {
@@ -147,12 +122,9 @@ const Modal = (() => {
     document.querySelector("#modal-directions").innerHTML = "";
   }
 
-function setEventDetails(event) {
-  
-}
+  function setEventDetails(event) {}
 
   async function setModal(event) {
-
     resetModal();
     document.querySelector(".modal-title").innerText = event.name;
     document.querySelector("#ribbon-title").innerText = event.status;
@@ -170,15 +142,13 @@ function setEventDetails(event) {
     document.querySelector("#modal-genre-text").innerText =
       event.classification;
 
-
     document.querySelector("#modal-tickets-text").href = event.urlTicket;
-    document.querySelector("#modal-tickets-price").innerText = 'From: ' + event.price.min + ' ' + event.price.max;
-   
-  
+    document.querySelector("#modal-tickets-price").innerText =
+      "From: " + event.price.min + " " + event.price.max;
+
     const dateDiv = document.querySelector("#modal-dates-text");
     dateDiv.innerHTML = "";
     const dates = event.dates.map((date) => new Date(date));
-
 
     dates.forEach((date) => {
       const dateStartText = document.createElement("span");

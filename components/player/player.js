@@ -145,7 +145,6 @@ const Player = (() => {
     let trackImageUrl = trackElement.querySelector("img").src;
     let trackName = trackElement.querySelector(".track-name").innerHTML;
     addClass(trackElement, "track-playing");
-   // trackElement.classList.add("track-playing");
     trackElement.querySelector(".track-info").innerHTML =
       " <i class='fas fa-play'></i>";
 

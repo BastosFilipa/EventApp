@@ -126,13 +126,16 @@ a:hover{
   border-radius: 50px;
   font-size: 14px;
   background-color:  transparent;
-  width: 50%;
+  width: 80%;
   padding: 5px;
 }
 
 .button-learnMore:hover { 
-  color: rgb(255,255,255);
-  background-color: var(--orange);
+  /*color: rgb(255,255,255);
+  background: var(--gradient);
+  border: 1px solid var(--violet);*/
+  color: var(--orange);
+  
 }
 
 a {

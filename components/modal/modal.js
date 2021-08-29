@@ -89,7 +89,7 @@ const Modal = (() => {
   function setMap(latLang, venue) {
     let mapElement = document.querySelector("#map");
 
-    if (latLang.lat === 0) {
+    if (latLang.lat === NaN || latLang.lat === 0) {
       mapElement.innerHTML = "No location found";
       return;
     }

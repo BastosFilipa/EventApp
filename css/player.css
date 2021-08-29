@@ -1,138 +1,131 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
 .center-content {
- display: flex;
- justify-content: center;
- flex-direction: column;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 
- height: inherit;
- width: 100%;
- background: var(--light-black);
-
+  height: inherit;
+  width: 100%;
+  background: var(--light-black);
 }
 
 #song-pic {
- height: 60px;
- width: 60px;
+  height: 60px;
+  width: 60px;
 }
 .controls-wrapper {
- margin: 10px;
-
-
+  margin: 10px;
 }
 .player-title {
- width: 100%;
- height: auto;
- display: flex;
- justify-content: space-between;
- flex-direction: row;
-
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
 .player-title a {
-color: var(--white-color);
- font-size: 0.8em;
- text-decoration: none;
+  color: var(--white-color);
+  font-size: 0.8em;
+  text-decoration: none;
 }
 
 .controls {
- display: grid;
- grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 
- align-items: center;
+  align-items: center;
 }
 .controls i {
- font-size: 19px;
- margin: 5px;
- color: var(--mild-color);
- cursor: pointer;
+  font-size: 19px;
+  margin: 5px;
+  color: var(--mild-color);
+  cursor: pointer;
 }
 .controls-center {
- display: inline-block; 
- justify-content: center;
- align-items: center;
- text-align: center;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 i.on {
-    color: var(--dark-green);
-   }
+  color: var(--dark-green);
+}
 
 .progress {
-    margin: 0 auto;
-    margin-top: 25px;
+  margin: 0 auto;
+  margin-top: 25px;
 
-    height: 5px;
-    border-radius: 15px;
-   }
+  height: 5px;
+  border-radius: 15px;
+}
 
-   .progress-bar {
-       background-color:var(--dark-green);
-   }
+.progress-bar {
+  background-color: var(--dark-green);
+}
 .tracks {
-    margin-top: 10px;
-    overflow: scroll;
-    overflow-x: hidden;
+  margin-top: 10px;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .tracks-full {
-    height: 150px;  
+  height: 150px;
 }
 
 .tracks::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  /* Track */
-  .tracks::-webkit-scrollbar-track {
-    background: transparent; 
-  }
-   
-  /* Handle */
-  .tracks::-webkit-scrollbar-thumb {
-    background: #000; 
-    border-radius: 10px;
-  }
-  }
-  
-  /* Handle on hover */
-  .tracks ::-webkit-scrollbar-thumb:hover {
-    background: var(--orange);; 
-  }
+  width: 4px;
+}
+
+/* Track */
+.tracks::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+.tracks::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.tracks ::-webkit-scrollbar-thumb:hover {
+  background: var(--orange);
+}
 
 .track {
-    display: grid;
-    align-items:center;
-    grid-column-gap: 5px;
-    padding: 3px;
-    grid-template-columns: 15px 40px auto 40px;
-    cursor: pointer;
-    border-radius: 5px;
+  display: grid;
+  align-items: center;
+  grid-column-gap: 5px;
+  padding: 3px;
+  grid-template-columns: 15px 40px auto 40px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .track i {
-    font-size: 10px;
-    color: var(--mild-color);
-    cursor: pointer;
-   }
+  font-size: 10px;
+  color: var(--mild-color);
+  cursor: pointer;
+}
 
-.track img{
-    width:40px;
-    height:40px;
+.track img {
+  width: 40px;
+  height: 40px;
 }
 
 .track div {
-     color: var(--white-color);
-     font-size: 0.8em;
-     text-decoration: none;
-    }
-
-.track:hover, .track-playing {
-    background-image: var(--gradient);
+  color: var(--white-color);
+  font-size: 0.8em;
+  text-decoration: none;
 }
 
+.track:hover,
+.track-playing {
+  background-image: var(--gradient);
+}
 
-
-.track-info{
-    text-align: center;
+.track-info {
+  text-align: center;
 }

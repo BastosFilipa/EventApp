@@ -37,8 +37,8 @@ const Events = (() => {
       function bindCalendar(){
 
         document.querySelector("#calendar").addEventListener("change", (event) => {
-            let queryDate = event.target.value;
-            $("#cards-container").html("");
+            defaultDate = new Date( event.target.value).toISOString().replace(/\.\d\d\dZ/g, "Z");;
+            document.querySelector("#cards-container").innerHTML = "";
             searchInLocation(city, 0, defaultDate);
         });
       }
@@ -47,7 +47,7 @@ const Events = (() => {
         document.querySelector("#location").addEventListener("change", (event) => {
             let query = event.target.value;
             city = query;
-            $("#cards-container").html("");
+            document.querySelector("#cards-container").innerHTML = "";
             searchInLocation(query, 0, defaultDate);
         });
       }

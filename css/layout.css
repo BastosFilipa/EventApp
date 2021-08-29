@@ -19,11 +19,19 @@ navbar {
 }
 
 #whats-happening {
-  border-bottom: 1px solid var(--violet);
+ 
   font-family: "Bebas Neue", cursive;
   font-size: 2rem;
   color: rgb(194, 194, 194);
-  /*color: #F5793B;*/
+
+}
+#whats-happening:after {
+  content: "";
+  display: block;
+  width: 30vw;
+  min-width: 250px;
+  height: 1px;
+  background-color: var(--violet);
 }
 
 .modal-title {

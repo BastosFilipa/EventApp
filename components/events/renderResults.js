@@ -1,7 +1,11 @@
 const renderEventsList = (events) => {
     return events.map((event) => renderEvent(event)).join("");
 };
-
+function htmlToElements(html) {
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    return template.content.childNodes;
+  }
 const renderEvent = (event) => {
     return `
         <div class="card">
@@ -43,9 +47,12 @@ const renderNoResults = () => {
 };
 
 const renderResults = (events = []) => {
-    $("#cards-container").append(
-      events.length > 0 ? renderEventsList(events) : renderNoResults()
-    );
+   let html = events.length ? renderEventsList(events) : renderNoResults();
+
+    document.querySelector("#cards-container").
+    append(...htmlToElements(html) );
 }
+  
+
 
 export { renderResults };

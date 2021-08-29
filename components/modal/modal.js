@@ -25,30 +25,28 @@ const Modal = (() => {
       });
   }
 
-  function setMap(latLang, venue) {
-    if (latLang.lat === 0) {
-      document.querySelector("#map").innerHTML = "No location found";
-      return;
-    }
-    document.querySelector(
-      "#modal-directions"
-    ).href = `https://www.google.com/maps/dir//${venue}/@${latLang.lat},${latLang.lng},12z/`;
-
-    const mapOptions = {
-      center: latLang,
-      zoom: 15,
+  function setModal(event) {
+    resetModal();
+    setEventTitleAndImage(event);
+    setEventDetails(event);
+    setEventDates(event);
+    setPlayer(event.name);
+    const latLang = {
+      lat: parseFloat(event.location.latitude),
+      lng: parseFloat(event.location.longitude),
     };
 
-    Map.loadMap(document.querySelector("#map"), mapOptions);
-  }
+    setMap(latLang, event.venue);
 
+    modal.show();
+  }
 
   function resetModal() {
     document.querySelector("#modal-dates-text").innerHTML = "";
     document.querySelector("#modal-genre-text").innerHTML = "";
     document.querySelector("#modal-tickets-text").href = "#";
     document.querySelector("#modal-venue").innerText = "";
-    document.querySelector("#modal-directions").innerHTML = "";
+  
   }
 
   function setEventTitleAndImage(event) {
@@ -60,6 +58,7 @@ const Modal = (() => {
         .querySelector("#ribbon-title")
         .classList.replace("ribbon-red", "ribbon-green");
     }
+
     document.querySelector(".modal-image").src = event.image;
     document.querySelector(".modal-image").alt = event.name;
     document.querySelector(".modal-image").title = event.name;
@@ -85,33 +84,30 @@ const Modal = (() => {
       dateStartText.innerText = date.toString().substring(0, 15);
       dateDiv.appendChild(dateStartText);
     });
-
   }
 
-  async function setPlayer(artist){
+  function setMap(latLang, venue) {
+    let mapElement = document.querySelector("#map");
 
-    let tracks = await Spotify.getArtistTracks(artist);
-    Player.addTracks(tracks);
-  }
+    if (latLang.lat === 0) {
+      mapElement.innerHTML = "No location found";
+      return;
+    }
+    document.querySelector(
+      "#modal-directions"
+    ).href = `https://www.google.com/maps/dir//${venue}/@${latLang.lat},${latLang.lng},12z/`;
 
-   function setModal(event) {
-    resetModal();
-    setEventTitleAndImage(event);
-    setEventDetails(event);
-    setEventDates(event);
-    setPlayer(event.name);
-    const latLang = {
-      lat: parseFloat(event.location.latitude),
-      lng: parseFloat(event.location.longitude),
+    const mapOptions = {
+      center: latLang,
+      zoom: 15,
     };
 
-    setMap(latLang, event.venue);
+    Map.loadMap(mapElement, mapOptions);
+  }
 
-    modal.show();
-
-   
-
-  
+  async function setPlayer(artist) {
+    let tracks = await Spotify.getArtistTracks(artist);
+    Player.addTracks(tracks);
   }
 
   return {

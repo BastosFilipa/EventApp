@@ -195,6 +195,7 @@ const Player = (() => {
   }
 
   function reset() {
+    pauseMusic();
     player.src = "";
     removeTracks();
     setPlayerInfo(

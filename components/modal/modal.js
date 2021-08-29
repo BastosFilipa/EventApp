@@ -11,90 +11,18 @@ const Modal = (() => {
     return template.content.childNodes;
   }
 
-  const modalTemplate = `<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-             
-                <div class="box col-md-6 float-md-end mb-3 ms-md-3">
-                  <div class="ribbon">
-                    <span id="ribbon-title">
-                    </span>
-                  </div>
-  
-                  <img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
-                    class="modal-image" alt="..." width="100%" />
-                    <div id="playerWrapper" class="center-content">
-                  </div>
-                </div>
-             
-                
-             
-                <div class="modal-info-container">
-
-                  <div class="modal-info-content">
-                    <div class="modal-info-title">
-                    <i class="fa fa-calendar" aria-hidden="true"></i> Event Dates:
-                    </div>
-                    <div id="modal-dates-text" class="modal-info-dates">
-                    </div>
-                  </div>
-                  <div class="modal-info-content">
-                    <div id="modal-genre"  class="modal-info-title">
-                    <i class="fas fa-music"></i> Genre:</div>
-                     <div id="modal-genre-text" class="modal-info-text"></div>
-                    </div>
-                  </div>
-                  <div class="modal-info-content">
-                    <div id="modal-tickets" class="modal-info-title">
-                    <i class="fas fa-ticket-alt"></i> Tickets: <a href="#" target="_blank" id="modal-tickets-text">Buy tickets</a></div>
-                    <div  class="modal-info-text">
-                    <span id="modal-tickets-price"></span>
-                      
-                    </div>
-                  </div>
-                 
-                  <div class="modal-info-content">
-                    <div  class="modal-info-title" ><i class="fas fa-map-marker-alt"></i> Venue: <a href="" id="modal-directions" target="_blank">Get directions</a></div>
-                    <div class="modal-info-text">
-                    <span id="modal-venue"></span>
-                    </div>
-                     
-                    
-                  </div>
-                 
-                  <div id="map"></div>
-                </div>
-             
-             
-            </div>
-            <div class="modal-footer">
-            <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button> -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>`;
-
   function init() {
-    const myModalEl = htmlToElements(modalTemplate);
-    const domModal = document.body.appendChild(myModalEl[0]);
-    modal = bootstrap.Modal.getOrCreateInstance(domModal);
-    Player.init("playerWrapper");
-    Map.initMap();
-    domModal.addEventListener("hidden.bs.modal", function (event) {
-      Player.reset();
-    });
+    fetch("/components/modal/template.html")
+      .then((data) => data.text())
+      .then((html) => {
+        const myModalEl = htmlToElements(html);
+        const domModal = document.body.appendChild(myModalEl[0]);
+        modal = bootstrap.Modal.getOrCreateInstance(domModal);
+        Player.init("playerWrapper");
+        domModal.addEventListener("hidden.bs.modal", function (event) {
+          Player.reset();
+        });
+      });
   }
 
   function setMap(latLang, venue) {
@@ -111,8 +39,9 @@ const Modal = (() => {
       zoom: 15,
     };
 
-    const modalMap = Map.loadMap(document.querySelector("#map"), mapOptions);
+    Map.loadMap(document.querySelector("#map"), mapOptions);
   }
+
 
   function resetModal() {
     document.querySelector("#modal-dates-text").innerHTML = "";
@@ -122,10 +51,7 @@ const Modal = (() => {
     document.querySelector("#modal-directions").innerHTML = "";
   }
 
-  function setEventDetails(event) {}
-
-  async function setModal(event) {
-    resetModal();
+  function setEventTitleAndImage(event) {
     document.querySelector(".modal-title").innerText = event.name;
     document.querySelector("#ribbon-title").innerText = event.status;
     document.querySelector("#ribbon-title").classList.add("ribbon-red");
@@ -137,7 +63,9 @@ const Modal = (() => {
     document.querySelector(".modal-image").src = event.image;
     document.querySelector(".modal-image").alt = event.name;
     document.querySelector(".modal-image").title = event.name;
+  }
 
+  function setEventDetails(event) {
     document.querySelector("#modal-venue").innerText = event.venue;
     document.querySelector("#modal-genre-text").innerText =
       event.classification;
@@ -145,9 +73,10 @@ const Modal = (() => {
     document.querySelector("#modal-tickets-text").href = event.urlTicket;
     document.querySelector("#modal-tickets-price").innerText =
       "From: " + event.price.min + " " + event.price.max;
+  }
 
+  function setEventDates(event) {
     const dateDiv = document.querySelector("#modal-dates-text");
-    dateDiv.innerHTML = "";
     const dates = event.dates.map((date) => new Date(date));
 
     dates.forEach((date) => {
@@ -157,18 +86,32 @@ const Modal = (() => {
       dateDiv.appendChild(dateStartText);
     });
 
-    modal.show();
+  }
 
-    let tracks = await Spotify.getArtistTracks(event.name);
+  async function setPlayer(artist){
 
+    let tracks = await Spotify.getArtistTracks(artist);
     Player.addTracks(tracks);
+  }
 
+   function setModal(event) {
+    resetModal();
+    setEventTitleAndImage(event);
+    setEventDetails(event);
+    setEventDates(event);
+    setPlayer(event.name);
     const latLang = {
       lat: parseFloat(event.location.latitude),
       lng: parseFloat(event.location.longitude),
     };
 
     setMap(latLang, event.venue);
+
+    modal.show();
+
+   
+
+  
   }
 
   return {

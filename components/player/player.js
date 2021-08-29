@@ -36,6 +36,15 @@ const Player = (() => {
   </div>
   `;
 
+  function init(idElement) {
+    if (!idElement) {
+      throw new Error("You must provide an element to insert player");
+    }
+    document.querySelector("#" + idElement).innerHTML = template;
+    setElements();
+    addEventListeners();
+  }
+  
   function removeClass(element, className) {
     element.classList.remove(className);
   }
@@ -96,13 +105,11 @@ const Player = (() => {
     if (!tracks || tracks.length === 0) {
       tracksContainer.innerHTML = "No tracks";
       removeClass(tracksContainer, "tracks-full");
-      //tracksContainer.classList.remove("tracks-full");
       return;
     }
     for (let track of tracks) {
       let trackElement = document.createElement("div");
       addClass(trackElement, "track");
-      //trackElement.classList.add("track");
       trackElement.dataset.id = track.id;
       trackElement.dataset.url = track.preview;
       trackElement.dataset.duration = track.duration;
@@ -133,7 +140,6 @@ const Player = (() => {
     let currentPlaying = document.querySelector(".track-playing");
     if (currentPlaying) {
       removeClass(currentPlaying, "track-playing");
-     // currentPlaying.classList.remove("track-playing");
       currentPlaying.querySelector(".track-info").innerHTML =
         currentPlaying.dataset.id;
     }
@@ -184,14 +190,7 @@ const Player = (() => {
     progressBar = document.querySelector("#progressBar");
   }
 
-  function init(idElement) {
-    if (!idElement) {
-      throw new Error("You must provide an element to insert player");
-    }
-    document.querySelector("#" + idElement).innerHTML = template;
-    setElements();
-    addEventListeners();
-  }
+ 
 
   function reset() {
     pauseMusic();

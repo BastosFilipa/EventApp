@@ -19,11 +19,19 @@ navbar {
 }
 
 #whats-happening {
-  border-bottom: 1px solid var(--violet);
+ 
   font-family: "Bebas Neue", cursive;
   font-size: 2rem;
   color: rgb(194, 194, 194);
-  /*color: #F5793B;*/
+
+}
+#whats-happening:after {
+  content: "";
+  display: block;
+  width: 30vw;
+  min-width: 250px;
+  height: 1px;
+  background-color: var(--violet);
 }
 
 .modal-title {
@@ -116,7 +124,7 @@ navbar {
 .modal-info-title:after {
   content: "";
   display: block;
-  width: 20%;
+  width: 200px;
   height: 1px;
   background-color: var(--violet);
 }
@@ -139,6 +147,14 @@ navbar {
 }
 .modal-info-dates {
   grid-template-columns: repeat(4, 1fr);
+}
+
+@media only screen and (max-width: 375px) {
+  .modal-info-dates {
+    grid-template-columns: repeat(3, 1fr);
+    font: 0.6rem sans-serif;
+    grid-gap: 5px;
+  }
 }
 
 .modal-header .btn-close {

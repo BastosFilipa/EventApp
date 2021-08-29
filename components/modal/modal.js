@@ -178,9 +178,9 @@ function setEventDetails(event) {
     const dateDiv = document.querySelector("#modal-dates-text");
     dateDiv.innerHTML = "";
     const dates = event.dates.map((date) => new Date(date));
-    const sortedDates = dates.sort((a, b) => a - b);
 
-    sortedDates.forEach((date) => {
+
+    dates.forEach((date) => {
       const dateStartText = document.createElement("span");
       dateStartText.classList.add("date-start-text");
       dateStartText.innerText = date.toString().substring(0, 15);

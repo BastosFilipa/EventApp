@@ -9,12 +9,9 @@ let defaultDate = new Date().toISOString().replace(/\.\d\d\dZ/g, "Z");
 
 $(document).ready(async function () {
   Modal.init();
-
-  
   searchInLocation();
 
   // bind the event handler to the input box
-
 
   $("#calendar").change((event) => {
     let queryDate = event.target.value;
@@ -89,7 +86,7 @@ function addObserver() {
     if (el[0].intersectionRatio > 0) {
       //console.log(el);
       observer.unobserve(lastEvent);
-
+      
       actualPage++;
       searchInLocation(city, actualPage, defaultDate);
     }

@@ -22,7 +22,7 @@ const renderEvent = (event) => {
                 </div>
                 <div class="buttons-container">
                 <button class="button-learnMore" data-event=${encodeURIComponent(JSON.stringify(event))} >Learn more</button>
-                <a class="share">Share this</a>
+                <a class="share"></a>
                 
                 <a href="https://www.facebook.com/sharer.php?u=${event.urlTicket}" target="_blank" class="facebook-btn">
                       <i class="fab fa-facebook"></i>
@@ -42,7 +42,7 @@ const renderNoResults = () => {
     return "<span>No results found</span>";
 };
 
-function renderResults(events = []) {
+const renderResults = (events = []) => {
     $("#cards-container").append(
       events.length > 0 ? renderEventsList(events) : renderNoResults()
     );

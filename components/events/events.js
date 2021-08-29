@@ -12,8 +12,7 @@ const Events = (() => {
 
     function init(){
         bindCalendar();
-        bindCityInput(); 
-        Modal.init();
+        bindCityInput();
         searchInLocation();
     }
 

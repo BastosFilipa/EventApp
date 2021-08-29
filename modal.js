@@ -1,12 +1,17 @@
 import { Spotify } from "./spotify.js";
 import { Player } from "./player.js";
+
 const Modal = (() => {
   let modal;
+  let apikey = "AIzaSyCzp7p_uX5EJ92S9fnQFG3Con5TcewcWjE";
+  let loader;
+
   function htmlToElements(html) {
     const template = document.createElement("template");
     template.innerHTML = html;
     return template.content.childNodes;
   }
+
   const modalTemplate = `<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
           <div class="modal-content">
@@ -36,11 +41,7 @@ const Modal = (() => {
                 <div>
                 <i class="fa fa-calendar" aria-hidden="true"></i> Event Dates:
                 <div id="modal-dates">
-                  
-                    
-                    <span id="date-start-text">
-                    
-                    </span>
+                
               </div>
 
               <p>
@@ -59,7 +60,8 @@ const Modal = (() => {
                 there's none of that here.
               </p>
                 </div>
-  
+                <div id="map"></div>
+
                
               </div>
             </div>
@@ -81,10 +83,45 @@ const Modal = (() => {
     const domModal = document.body.appendChild(myModalEl[0]);
     modal = bootstrap.Modal.getOrCreateInstance(domModal);
     Player.init("playerWrapper");
+    initMap();
   }
 
+  function initMap() {
+    loader = new google.maps.plugins.loader.Loader({
+      apiKey: apikey,
+      version: "weekly",
+      libraries: ["places"],
+    });
+  }
+
+  function setMap(latLang) {
+
+    if(latLang.lat === 0) {
+      document.getElementById("map").innerHTML = "No location found";
+      return; 
+    }
+    const mapOptions = {
+      center: latLang,
+      zoom: 15,
+    };
+
+    loader.loadCallback((e) => {
+      if (e) {
+        console.log(e);
+      } else {
+        const map = new google.maps.Map(
+          document.getElementById("map"),
+          mapOptions
+        );
+        const marker = new google.maps.Marker({
+          position: latLang,
+          map: map,
+        });
+      }
+    });
+  }
   async function setModal(event) {
-    console.log(event);
+    // console.log(event);
     document.querySelector(".modal-title").innerText = event.name;
     document.querySelector(".modal-image").src = event.image;
     document.querySelector(".modal-image").alt = event.name;
@@ -98,7 +135,7 @@ const Modal = (() => {
     }
     const dateDiv = document.querySelector("#modal-dates");
     dateDiv.innerHTML = "";
-    const dates= event.dates.map(date => new Date(date));
+    const dates = event.dates.map((date) => new Date(date));
     const sortedDates = dates.sort((a, b) => a - b);
 
     sortedDates.forEach((date) => {
@@ -106,17 +143,21 @@ const Modal = (() => {
       dateStartText.classList.add("date-start-text");
       dateStartText.innerText = date.toString().substring(0, 15);
       dateDiv.appendChild(dateStartText);
-
-      
-    })
+    });
 
     modal.show();
-
     Player.reset();
 
     let tracks = await Spotify.getArtistTracks(event.name);
 
     Player.addTracks(tracks);
+
+    const latLang = {
+      lat: parseFloat(event.location.latitude),
+      lng: parseFloat(event.location.longitude),
+    };
+
+    setMap(latLang)
   }
 
   return {

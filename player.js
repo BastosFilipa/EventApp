@@ -95,12 +95,14 @@ const Player = (() => {
     let tracksContainer = document.querySelector(".tracks");
     if (!tracks || tracks.length === 0) {
       tracksContainer.innerHTML = "No tracks";
-      tracksContainer.classList.remove("tracks-full");
+      removeClass(tracksContainer, "tracks-full");
+      //tracksContainer.classList.remove("tracks-full");
       return;
     }
     for (let track of tracks) {
       let trackElement = document.createElement("div");
-      trackElement.classList.add("track");
+      addClass(trackElement, "track");
+      //trackElement.classList.add("track");
       trackElement.dataset.id = track.id;
       trackElement.dataset.url = track.preview;
       trackElement.dataset.duration = track.duration;
@@ -117,7 +119,8 @@ const Player = (() => {
         playMusic();
       });
     }
-    tracksContainer.classList.add("tracks-full");
+    addClass(tracksContainer, "tracks-full");
+    //tracksContainer.classList.add("tracks-full");
     tracksContainer.scrollTo(0, 0);
   }
 
@@ -129,7 +132,8 @@ const Player = (() => {
   function resetTrackPlaying() {
     let currentPlaying = document.querySelector(".track-playing");
     if (currentPlaying) {
-      currentPlaying.classList.remove("track-playing");
+      removeClass(currentPlaying, "track-playing");
+     // currentPlaying.classList.remove("track-playing");
       currentPlaying.querySelector(".track-info").innerHTML =
         currentPlaying.dataset.id;
     }
@@ -140,7 +144,8 @@ const Player = (() => {
     let trackUrl = trackElement.dataset.url;
     let trackImageUrl = trackElement.querySelector("img").src;
     let trackName = trackElement.querySelector(".track-name").innerHTML;
-    trackElement.classList.add("track-playing");
+    addClass(trackElement, "track-playing");
+   // trackElement.classList.add("track-playing");
     trackElement.querySelector(".track-info").innerHTML =
       " <i class='fas fa-play'></i>";
 

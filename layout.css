@@ -132,3 +132,8 @@ navbar {
   font: 10px sans-serif;
   align-items: center;
 }
+
+#map {
+  height: 200px;
+
+}

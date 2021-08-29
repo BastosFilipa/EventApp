@@ -66,7 +66,7 @@ function bindModal(results) {
         let eventObj = JSON.parse(
           decodeURIComponent(card.dataset.event)
         );
-        console.log(eventObj);
+       
         Modal.setModal(eventObj);
       });
     

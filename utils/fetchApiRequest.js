@@ -4,7 +4,7 @@ const eventsApiRequest = (params = {}) => {
     let url = `https://app.ticketmaster.com/discovery/v2/events.json?classificationName=music&apikey=${APIKEY}`;
   
     let uriParams = Object.keys(params).reduce((cumulative, key) => {
-      return cumulative + `&${key}=${encodeURIComponent(params[key])}`;
+      return cumulative + `&${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
     }, "");
   
     if (uriParams) {

@@ -1,24 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 
-:root {
- --dark-black: #121212;
- --light-black: #1e272c; 
- --dark-green: #1db954;
- --light-green: #1ed760;
-
- --gradient: linear-gradient(180deg, rgba(98,3,78,1) 0%, rgba(48,25,1,1) 100%);
- --white-color: #fff;
- --mild-color: #CCC;
- --light-salmon: #c59a89;
- --medium-salmon: #e58e73;
- --orange: #F5793B;
-}
-
-
-
-
-
 .center-content {
  display: flex;
  justify-content: center;

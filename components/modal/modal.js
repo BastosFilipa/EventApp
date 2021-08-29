@@ -20,58 +20,67 @@ const Modal = (() => {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="clearfix">
+             
                 <div class="box col-md-6 float-md-end mb-3 ms-md-3">
                   <div class="ribbon">
                     <span id="ribbon-title">
-                      On Sale
                     </span>
-  
                   </div>
   
                   <img
-                    src="https://s1.ticketm.net/dam/a/5ba/e61d38c6-4173-46fe-9b34-f84adf6295ba_1433851_EVENT_DETAIL_PAGE_16_9.jpg"
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                     class="modal-image" alt="..." width="100%" />
                     <div id="playerWrapper" class="center-content">
-                </div>
+                  </div>
                 </div>
              
                 
              
-                <div>
-                <i class="fa fa-calendar" aria-hidden="true"></i> Event Dates:
-                <div id="modal-dates">
-                
-              </div>
+                <div class="modal-info-container">
 
-              <p>
-                As you can see the paragraphs gracefully wrap around the
-                floated image. Now imagine how this would look with some
-                actual content in here, rather than just this boring
-                placeholder text that goes on and on, but actually conveys no
-                tangible information at. It simply takes up space and should
-                not really be read.
-              </p>
-
-              <p>
-                And yet, here you are, still persevering in reading this
-                placeholder text, hoping for some more insights, or some
-                hidden easter egg of content. A joke, perhaps. Unfortunately,
-                there's none of that here.
-              </p>
+                  <div class="modal-info-content">
+                    <div class="modal-info-title">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> Event Dates:
+                    </div>
+                    <div id="modal-dates-text" class="modal-info-dates">
+                    </div>
+                  </div>
+                  <div class="modal-info-content">
+                    <div id="modal-genre"  class="modal-info-title">
+                    <i class="fas fa-music"></i> Genre:</div>
+                     <div id="modal-genre-text" class="modal-info-text"></div>
+                    </div>
+                  </div>
+                  <div class="modal-info-content">
+                    <div id="modal-tickets" class="modal-info-title">
+                    <i class="fas fa-ticket-alt"></i> Tickets: <a href="#" target="_blank" id="modal-tickets-text">Buy tickets</a></div>
+                    <div  class="modal-info-text">
+                    <span id="modal-tickets-price"></span>
+                      
+                    </div>
+                  </div>
+                 
+                  <div class="modal-info-content">
+                    <div  class="modal-info-title" ><i class="fas fa-map-marker-alt"></i> Venue: <a href="" id="modal-directions" target="_blank"></a></div>
+                    <div class="modal-info-text">
+                    <span id="modal-venue"></span>
+                    </div>
+                     
+                    
+                  </div>
+                 
+                  <div id="map"></div>
                 </div>
-                <div id="map"></div>
-
-               
-              </div>
+             
+             
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <!--  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Close
               </button>
               <button type="button" class="btn btn-primary">
                 Save changes
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
@@ -83,6 +92,11 @@ const Modal = (() => {
     const domModal = document.body.appendChild(myModalEl[0]);
     modal = bootstrap.Modal.getOrCreateInstance(domModal);
     Player.init("playerWrapper");
+
+    domModal.addEventListener("hidden.bs.modal", function (event) {
+      Player.reset();
+    });
+
     initMap();
   }
 
@@ -94,23 +108,27 @@ const Modal = (() => {
     });
   }
 
-  function setMap(latLang) {
-
-    if(latLang.lat === 0) {
-      document.getElementById("map").innerHTML = "No location found";
-      return; 
+  function setMap(latLang, venue) {
+    if (latLang.lat === 0) {
+      document.querySelector("#map").innerHTML = "No location found";
+      return;
     }
     const mapOptions = {
       center: latLang,
       zoom: 15,
     };
-
     loader.loadCallback((e) => {
       if (e) {
         console.log(e);
       } else {
+        document.querySelector("#modal-directions").innerText =
+          "Get directions";
+        document.querySelector(
+          "#modal-directions"
+        ).href = `https://www.google.com/maps/dir//${venue}/@${latLang.lat},${latLang.lng},12z/`;
+
         const map = new google.maps.Map(
-          document.getElementById("map"),
+          document.querySelector("#map"),
           mapOptions
         );
         const marker = new google.maps.Marker({
@@ -120,12 +138,23 @@ const Modal = (() => {
       }
     });
   }
+
+  function resetModal() {
+    document.querySelector("#modal-dates-text").innerHTML = "";
+    document.querySelector("#modal-genre-text").innerHTML = "";
+    document.querySelector("#modal-tickets-text").href = "#";
+    document.querySelector("#modal-venue").innerText = "";
+    document.querySelector("#modal-directions").innerHTML = "";
+  }
+
+function setEventDetails(event) {
+  
+}
+
   async function setModal(event) {
-    // console.log(event);
+
+    resetModal();
     document.querySelector(".modal-title").innerText = event.name;
-    document.querySelector(".modal-image").src = event.image;
-    document.querySelector(".modal-image").alt = event.name;
-    document.querySelector(".modal-image").title = event.name;
     document.querySelector("#ribbon-title").innerText = event.status;
     document.querySelector("#ribbon-title").classList.add("ribbon-red");
     if (event.status === "onsale") {
@@ -133,7 +162,20 @@ const Modal = (() => {
         .querySelector("#ribbon-title")
         .classList.replace("ribbon-red", "ribbon-green");
     }
-    const dateDiv = document.querySelector("#modal-dates");
+    document.querySelector(".modal-image").src = event.image;
+    document.querySelector(".modal-image").alt = event.name;
+    document.querySelector(".modal-image").title = event.name;
+
+    document.querySelector("#modal-venue").innerText = event.venue;
+    document.querySelector("#modal-genre-text").innerText =
+      event.classification;
+
+
+    document.querySelector("#modal-tickets-text").href = event.urlTicket;
+    document.querySelector("#modal-tickets-price").innerText = 'From: ' + event.price.min + ' ' + event.price.max;
+   
+  
+    const dateDiv = document.querySelector("#modal-dates-text");
     dateDiv.innerHTML = "";
     const dates = event.dates.map((date) => new Date(date));
     const sortedDates = dates.sort((a, b) => a - b);
@@ -146,7 +188,6 @@ const Modal = (() => {
     });
 
     modal.show();
-    Player.reset();
 
     let tracks = await Spotify.getArtistTracks(event.name);
 
@@ -157,7 +198,7 @@ const Modal = (() => {
       lng: parseFloat(event.location.longitude),
     };
 
-    setMap(latLang)
+    setMap(latLang, event.venue);
   }
 
   return {

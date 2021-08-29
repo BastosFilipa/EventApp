@@ -1,5 +1,5 @@
-import { Spotify } from "./spotify.js";
-import { Player } from "./player.js";
+import { Spotify } from "../spotify/spotify.js";
+import { Player } from "../player/player.js";
 
 const Modal = (() => {
   let modal;

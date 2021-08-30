@@ -99,7 +99,8 @@ const Modal = (() => {
 
     const mapOptions = {
       center: latLang,
-      zoom: 15,
+    
+     
     };
 
     Map.loadMap(mapElement, mapOptions);

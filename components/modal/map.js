@@ -1,3 +1,5 @@
+import mapStyle from './mapstyle.js';
+
 const Map = (() => {
   let apikey = "AIzaSyCzp7p_uX5EJ92S9fnQFG3Con5TcewcWjE";
   let loader;
@@ -16,6 +18,10 @@ const Map = (() => {
     }
 
     loader.load().then(function () {
+      mapOptions.zoom=15;
+      mapOptions.mapTypeId= google.maps.MapTypeId.ROADMAP;
+      mapOptions.mapTypeControl= false;
+      mapOptions.styles= mapStyle;
       let map = new google.maps.Map(mapElement, mapOptions);
       new google.maps.Marker({
         position: mapOptions.center,

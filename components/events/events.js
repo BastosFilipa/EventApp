@@ -96,7 +96,8 @@ const Events = (() => {
       }
  
 return {    
-    init
+    init,
+    bindModal
 }
       
 })();

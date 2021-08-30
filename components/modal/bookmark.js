@@ -7,7 +7,7 @@ const Bookmark = (() => {
     let actionLink;
     let actioEvent;
 
-    
+
     function init(target){
        actionLink =document.querySelector(target);
        actionLink.addEventListener("click", preventDefault);
@@ -34,7 +34,6 @@ const Bookmark = (() => {
     }
 
     function bind(target, event){
-        
         actioEvent = event;
         if(exists(event)!= undefined){
             setRemove();

@@ -1,4 +1,5 @@
-﻿# eventApp
+![alt text](https://github.com/BastosFilipa/eventApp/main/assets/readme/1.png?raw=true)
+# eventApp
 Web application developed with HTML, CSS and JavaScript and Bootstrap.
 
 This app consumes the following API's: Ticketmaster API, Spotify API and Google Maps API as well as some HTML API (Intersection Observer, Web Audio and Web Storage).

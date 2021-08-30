@@ -56,7 +56,8 @@ const Events = (() => {
         let cards=allEvents.querySelectorAll("div.card");
         let lastEvent = cards[cards.length - 1];
       
-        if (lastEvent.tagName.toLowerCase() == "span") {
+        
+        if (lastEvent.nextSibling?.tagName.toLowerCase() == "span") {
           return;
         }
         const options = {

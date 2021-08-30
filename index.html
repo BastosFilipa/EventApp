@@ -1,61 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-    crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
 
-  <script src="app.js" type="module"></script>
-  <script src="scrollBtn.js"></script>
+    <script src="https://unpkg.com/@googlemaps/js-api-loader@1.0.0/dist/index.min.js"></script>
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="layout.css" />
-  <link rel="stylesheet" href="player.css" />
-  <title>Sound Tracker APP</title>
-</head>
+    <script src="app.js" type="module"></script>
 
-<body>
-  <navbar id="navbar" class="navbar">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-       <img src="assets/logo.svg" alt="logo"/>
-      </a>
-    </div>
-  </navbar>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/player.css" />
+    <title>Sound Tracker APP</title>
+  </head>
 
-  <div id="pickers" class="p-5">
-    <div class="row gx-5 justify-content-center">
-      <div class="col-md-5">
-        <input id="location" class="form-control bg-transparent" type="text"
-          placeholder="Type your city to search events nearby" />
+  <body>
+    <navbar id="navbar" class="navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="assets/logo.svg" alt="logo" />
+        </a>
       </div>
-      <div class="col-md-2">
-        <input id="calendar" class="form-control bg-transparent" type="date" />
+    </navbar>
+
+    <div id="pickers" class="p-5">
+      <div class="row gx-5 justify-content-center">
+        <div class="col-md-5">
+          <input
+            id="location"
+            class="form-control bg-transparent"
+            type="text"
+            placeholder="Type your city to search events nearby"
+          />
+        </div>
+        <div class="col-md-2">
+          <input
+            id="calendar"
+            class="form-control bg-transparent"
+            type="date"
+            placeholder="Choose a date"
+          />
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="container mt-md-5">
-    <div class="row">
-      <div id="whats-happening" class="col-md-4">What's happening?</div>
+    <div class="container mt-md-5">
+      <div class="row">
+        <div id="whats-happening" class="col-md-4">What's happening?</div>
+      </div>
     </div>
-  </div>
 
-    <button id="scrollToTop" title="Go to top of the page">Top</button> 
-  </div>
-
-
-  <div id="cards-container">
-  </div>
-
-</body>
-
+    <div id="cards-container"></div>
+    <button id="scrollToTop" title="Go to top of the page"> <div class="arrow up"></div> </button>
+  </body>
 </html>

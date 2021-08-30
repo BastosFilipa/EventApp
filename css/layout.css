@@ -5,12 +5,8 @@ body {
 }
 
 navbar {
-  background: rgb(98, 3, 78);
-  background: linear-gradient(
-    180deg,
-    rgba(98, 3, 78, 1) 0%,
-    rgba(48, 25, 1, 1) 100%
-  );
+  background: var(--violet);
+  background: var(--gradient);
 }
 
 #pickers {
@@ -23,11 +19,19 @@ navbar {
 }
 
 #whats-happening {
-  border-bottom: 1px solid #62034e;
+ 
   font-family: "Bebas Neue", cursive;
   font-size: 2rem;
   color: rgb(194, 194, 194);
-  /*color: #F5793B;*/
+
+}
+#whats-happening:after {
+  content: "";
+  display: block;
+  width: 30vw;
+  min-width: 250px;
+  height: 1px;
+  background-color: var(--violet);
 }
 
 .modal-title {
@@ -35,6 +39,9 @@ navbar {
   font-size: 1.5rem;
 }
 
+.modal-info-content {
+  padding-bottom: 20px;
+}
 .box {
   position: relative;
 }
@@ -73,7 +80,6 @@ navbar {
   z-index: -1;
   border-right: 3px solid transparent;
   border-bottom: 3px solid transparent;
-
 }
 .ribbon span::after {
   content: "";
@@ -84,14 +90,11 @@ navbar {
   border-left: 3px solid transparent;
 
   border-bottom: 3px solid transparent;
-
 }
-
 
 .ribbon span.ribbon-green {
   background: #79a70a;
   background: linear-gradient(#9bc90d 0%, #79a70a 100%);
- 
 }
 .ribbon span.ribbon-green::before {
   border-left: 3px solid #79a70a;
@@ -105,7 +108,6 @@ navbar {
 .ribbon span.ribbon-red {
   background: #a72f0a;
   background: linear-gradient(#862609 0%, #a72f0a 100%);
- 
 }
 .ribbon span.ribbon-red::before {
   border-left: 3px solid #a72f0a;
@@ -116,19 +118,50 @@ navbar {
   border-top: 3px solid #a72f0a;
 }
 
-
-
-.modal-grid{
-  display: grid;
- grid-template-columns: repeat(2, 1fr);
-
- align-items: center;
+.modal-info-title {
+  margin-bottom: 10px;
+}
+.modal-info-title:after {
+  content: "";
+  display: block;
+  width: 200px;
+  height: 1px;
+  background-color: var(--violet);
 }
 
-#modal-dates{
+.modal-info-title a {
+  font: 0.8rem sans-serif;
+}
+
+
+.modal-info-text,
+.modal-info-dates {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
   grid-gap: 10px;
-  font: 10px sans-serif;
+  font: 0.8rem sans-serif;
   align-items: center;
+  padding-left: 40px;
+}
+.modal-info-text {
+  grid-template-columns: repeat(2, auto);
+}
+.modal-info-dates {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media only screen and (max-width: 375px) {
+  .modal-info-dates {
+    grid-template-columns: repeat(3, 1fr);
+    font: 0.6rem sans-serif;
+    grid-gap: 5px;
+  }
+}
+
+.modal-header .btn-close {
+  margin: 0px;
+  padding: 0px;
+}
+
+#map {
+  height: 200px;
 }

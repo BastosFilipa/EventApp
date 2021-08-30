@@ -36,6 +36,15 @@ const Player = (() => {
   </div>
   `;
 
+  function init(idElement) {
+    if (!idElement) {
+      throw new Error("You must provide an element to insert player");
+    }
+    document.querySelector("#" + idElement).innerHTML = template;
+    setElements();
+    addEventListeners();
+  }
+  
   function removeClass(element, className) {
     element.classList.remove(className);
   }
@@ -95,12 +104,12 @@ const Player = (() => {
     let tracksContainer = document.querySelector(".tracks");
     if (!tracks || tracks.length === 0) {
       tracksContainer.innerHTML = "No tracks";
-      tracksContainer.classList.remove("tracks-full");
+      removeClass(tracksContainer, "tracks-full");
       return;
     }
     for (let track of tracks) {
       let trackElement = document.createElement("div");
-      trackElement.classList.add("track");
+      addClass(trackElement, "track");
       trackElement.dataset.id = track.id;
       trackElement.dataset.url = track.preview;
       trackElement.dataset.duration = track.duration;
@@ -117,7 +126,8 @@ const Player = (() => {
         playMusic();
       });
     }
-    tracksContainer.classList.add("tracks-full");
+    addClass(tracksContainer, "tracks-full");
+    //tracksContainer.classList.add("tracks-full");
     tracksContainer.scrollTo(0, 0);
   }
 
@@ -129,9 +139,16 @@ const Player = (() => {
   function resetTrackPlaying() {
     let currentPlaying = document.querySelector(".track-playing");
     if (currentPlaying) {
-      currentPlaying.classList.remove("track-playing");
+      removeClass(currentPlaying, "track-playing");
       currentPlaying.querySelector(".track-info").innerHTML =
         currentPlaying.dataset.id;
+    }
+  }
+
+  function loadFirstTrack() {
+    let tracks = document.querySelectorAll(".track");
+    if (tracks.length > 0) {
+      setTrackPlaying(tracks[0]);
     }
   }
 
@@ -140,7 +157,7 @@ const Player = (() => {
     let trackUrl = trackElement.dataset.url;
     let trackImageUrl = trackElement.querySelector("img").src;
     let trackName = trackElement.querySelector(".track-name").innerHTML;
-    trackElement.classList.add("track-playing");
+    addClass(trackElement, "track-playing");
     trackElement.querySelector(".track-info").innerHTML =
       " <i class='fas fa-play'></i>";
 
@@ -180,16 +197,10 @@ const Player = (() => {
     progressBar = document.querySelector("#progressBar");
   }
 
-  function init(idElement) {
-    if (!idElement) {
-      throw new Error("You must provide an element to insert player");
-    }
-    document.querySelector("#" + idElement).innerHTML = template;
-    setElements();
-    addEventListeners();
-  }
+ 
 
   function reset() {
+    pauseMusic();
     player.src = "";
     removeTracks();
     setPlayerInfo(
@@ -207,6 +218,7 @@ const Player = (() => {
     init,
     addTracks,
     reset,
+    loadFirstTrack
   };
 })();
 

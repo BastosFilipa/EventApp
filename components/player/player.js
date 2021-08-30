@@ -145,6 +145,13 @@ const Player = (() => {
     }
   }
 
+  function loadFirstTrack() {
+    let tracks = document.querySelectorAll(".track");
+    if (tracks.length > 0) {
+      setTrackPlaying(tracks[0]);
+    }
+  }
+
   function setTrackPlaying(trackElement) {
     resetTrackPlaying();
     let trackUrl = trackElement.dataset.url;
@@ -211,6 +218,7 @@ const Player = (() => {
     init,
     addTracks,
     reset,
+    loadFirstTrack
   };
 })();
 

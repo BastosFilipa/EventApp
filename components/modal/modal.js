@@ -109,6 +109,7 @@ const Modal = (() => {
   async function setPlayer(artist) {
     let tracks = await Spotify.getArtistTracks(artist);
     Player.addTracks(tracks);
+    Player.loadFirstTrack();
   }
 
   return {

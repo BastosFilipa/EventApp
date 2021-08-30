@@ -1,6 +1,7 @@
 import { Spotify } from "../spotify/spotify.js";
 import { Player } from "../player/player.js";
 import { Map } from "./map.js";
+import { Bookmark } from "./bookmark.js";
 
 const Modal = (() => {
   let modal;
@@ -22,6 +23,7 @@ const Modal = (() => {
         domModal.addEventListener("hidden.bs.modal", function (event) {
           Player.reset();
         });
+        Bookmark.init('#modal-bookmark');
       });
   }
 
@@ -31,12 +33,13 @@ const Modal = (() => {
     setEventDetails(event);
     setEventDates(event);
     setPlayer(event.name);
+    Bookmark.bind('#modal-bookmark',event);
     const latLang = {
       lat: parseFloat(event.location.latitude),
       lng: parseFloat(event.location.longitude),
     };
-
     setMap(latLang, event.venue);
+
 
     modal.show();
   }

@@ -1,4 +1,4 @@
-![alt text](https://github.com/BastosFilipa/eventApp/tree/main/assets/readme/1.png?raw=true)
+![alt text](https://github.com/BastosFilipa/eventApp/blob/main/assets/readme/1.png?raw=true)
 # eventApp
 Web application developed with HTML, CSS and JavaScript and Bootstrap.
 
